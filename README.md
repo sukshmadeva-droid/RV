@@ -1,4 +1,4 @@
-# RuVKompendium 6
+# RuVKompendium 7
 
 Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller Datenstand: **08.08.2026**.
 
@@ -14,7 +14,8 @@ Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller D
 - Suchoperatoren wie `tarif:premium`, `doc:avb`, `baustein:naturgefahren`
 - Offline-Cache per Service Worker; PWA-Manifest und iPhone Home-Screen-Icon
 - Eigenständiges Karten-K-App-Icon mit R+V-Kennung in der rechten unteren Ecke
-- Edition 06: kompakter „R+V Kompendium“-Header, flachere iPhone-Navigation, heller High-Contrast-Look und lokale Quellen-Sheets für den Beratungsmodus
+- Edition 07: neuer Bereich „Abschluss & Grenzen“, zusätzliche 2026er Produkt-/Tarifdetails, deutlich mehr lokale Quellenbelege und vertiefte Profile für zuvor knappe Produktkarten
+- Aktuell 39 explizite Abschluss-/Grenzangaben und über 200 lokale Quellenbelege; kein Produktweg bleibt nur als unbefülltes Kurzprofil stehen
 - Keine externen Libraries, kein Build-Schritt
 
 ## GitHub Pages

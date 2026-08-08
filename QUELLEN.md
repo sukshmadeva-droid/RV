@@ -17,10 +17,13 @@ Prüfstand: **08.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V 
 - R+V-Unfallversicherung / Risiko-UnfallPolice Verbraucherinformationen und Bedingungen
 - R+V-Kapital-UnfallPolice Verbraucherinformationen und Bedingungen
 - Operationskostenversicherung Hund/Pferd – jeweilige AVB der angebotenen Tierversicherungsprodukte
+- R+V Makler-Unterlage „Ärztliche Untersuchung – Summengrenzen“, Stand 06/2026
+- R+V Makler-Sellingsheet „BU-Versicherung für Schüler“, Stand 05/2026
+- R+V Beitragstabelle FernWeh / FernWeh Familie, Stand 01/2026
 
 Jeder Eintrag in der App enthält zusätzlich seine konkrete R+V-Produktseite sowie das zugeordnete Bedingungswerk oder – wo mehrere Sonderbedingungen greifen – die offizielle Bedingungszentrale.
 
-## Evidence Layer – Edition 06
+## Evidence Layer – Edition 07
 
 Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen offiziellen R+V-Unterlagen separat ausgewertet. Diese Belege stehen in `evidence.js` und werden über das kleine Quellen-Icon direkt in der App angezeigt. Enthalten sind insbesondere Tarifabgrenzungen und zentrale Leistungsmerkmale aus:
 
@@ -34,6 +37,18 @@ Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen 
 - R+V-Pflege FörderBahr: aktuelle Produktdarstellung zu Förderung, Annahme, Pflegegradstaffel und Wartezeit
 - RatenschutzPolice / Restschuldversicherung: aktuelle Produktdarstellung zu versicherten Risiken, Wartezeit und Leistungsgrenzen
 - Photovoltaikversicherung: aktuelle Privatkunden-Produktdarstellung zum Wohngebäude-Baustein und optionalem Ertragsausfall
+- E-Auto- und Motorradversicherung: aktuelle Produktdarstellungen plus Pkw-/Nicht-Pkw-AKB 07/2026
+- MietkautionsBürgschaft: Young-Tarif, Alters-/Kautionsgrenzen und aktuelle Bedingungen
+- SicherVermieten: aktuelle R+V-Produktdarstellung und PrivatPolice-Kundeninformation
+- GeräteSchutz / Laptop / Hardware: Gerätealter, Laufzeit, Grundgefahren und Zusatzbausteine der aktuellen R+V-Produktdarstellung
+- Verkehrs-, Berufs- und Immobilien-Rechtsschutz: aktuelle R+V-Produktdarstellungen und zugeordnete Rechtsschutzbedingungen
+- Kinderunfall: aktuelle Produktseite sowie Risiko-/Kapital-Unfallbedingungen
+- R+V-Kranken PKX 07/26: zusätzlich Mitglieder-Tarife M1U/M2U/M3U und private Pflegepflicht PP/PPN/PPB
+- CashProtect: aktuelle Bausteine Gesundheit/Einkommen/Leben, Absicherungshöhen sowie Warte- und Karenzzeiten
+- Vermögensübertragung: Übertragungszeitpunkt, Bezugsrecht, Anlageausrichtung, Entnahmen/Zuzahlungen sowie Angaben zu Gesundheitsfragen und Wartezeit
+- Direktversicherung durch Entgeltumwandlung: Renten-/Kapitaloption, möglicher Leistungsbeginn, Arbeitgeberwechsel sowie BUZ-/Hinterbliebenenoption
+- KinderVorsorge IndexInvest: Mindestbeitrag/Zuzahlung, maximale Termfix-Laufzeit, Beitragsgarantie, SOMAS-Varianten und Liquiditätsoption
+- Sparen für Kinder: aktuelle R+V-Produktwege AnsparKombi, AnlageKombi, KinderVorsorge IndexInvest, InvestmentKonzept Duo Invest und R+V-VorsorgeKonzept
 
 Die angezeigten Quellentexte sind bewusst **redaktionell verdichtete Bedingungsstellen** und keine vollständige Wiedergabe der Bedingungshefte. Kurze Originalfragmente dienen nur der schnellen Wiedererkennung der Fundstelle. Wo Höchstbeträge oder Selbstbehalte laut AVB erst durch Versicherungsschein/Nachtrag bestimmt werden, weist der Beleg darauf hin und erfindet keine pauschale Zahl.
 

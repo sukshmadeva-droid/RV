@@ -125,6 +125,8 @@ main{position:relative;z-index:1;max-width:780px;margin:auto;padding:0 16px}
 .section-title{font-size:10px;letter-spacing:1.4px;color:#007e60;margin:24px 0 9px;text-transform:uppercase}
 .fact-grid{display:grid;gap:7px}
 .fact{background:#f4f8fa;border:1px solid #d5e4eb;border-radius:14px;padding:11px 12px;font-size:12px;line-height:1.4;color:#35586d}
+.eligibility-grid{border-left:3px solid var(--blue);padding-left:8px}
+.eligibility-fact{background:linear-gradient(135deg,#eef8ff 0%,#f8fcff 100%);border-color:#c7e3f4;color:#174f72}
 .tariff-grid{display:grid;gap:7px}
 .tariff{border:1px solid #bfd5e1;border-radius:15px;padding:12px;background:#f8fbfc}
 .tariff strong{display:flex;justify-content:space-between;gap:8px;flex:1;font-size:13px;color:var(--navy)}
