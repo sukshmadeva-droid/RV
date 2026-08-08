@@ -20,6 +20,20 @@ Prüfstand: **08.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V 
 
 Jeder Eintrag in der App enthält zusätzlich seine konkrete R+V-Produktseite sowie das zugeordnete Bedingungswerk oder – wo mehrere Sonderbedingungen greifen – die offizielle Bedingungszentrale.
 
+## Evidence Layer – Edition 04
+
+Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen offiziellen R+V-Unterlagen separat ausgewertet. Diese Belege stehen in `evidence.js` und werden über das kleine Quellen-Icon direkt in der App angezeigt. Enthalten sind insbesondere Tarifabgrenzungen und zentrale Leistungsmerkmale aus:
+
+- PrivatPolice premium Haftpflicht/Haushalt (HPB 07/26, HRB 07/2026)
+- Pkw-AKB, Stand Juli 2026
+- Bedingungsheft Krankenversicherung PKX 07/26, unter anderem AGIL, Zahn, Klinik, NaturMedizin, Blick + Check und PflegeVorsorge
+- R+V-UnfallPolice, unter anderem PremiumPlus, HilfePlus und RisikoPlus
+- Hunde-OP Grundbedingungen
+- R+V-Risikoversicherung 1E37, Stand 01.07.2026
+- Berufsunfähigkeitsversicherung: offizielle R+V-Produktdarstellung mit ausdrücklichem Verweis auf BV29/BV30/BV31, AVB-Stand 01.04.2026
+
+Die angezeigten Quellentexte sind bewusst **redaktionell verdichtete Bedingungsstellen** und keine vollständige Wiedergabe der Bedingungshefte. Kurze Originalfragmente dienen nur der schnellen Wiedererkennung der Fundstelle. Wo Höchstbeträge oder Selbstbehalte laut AVB erst durch Versicherungsschein/Nachtrag bestimmt werden, weist der Beleg darauf hin und erfindet keine pauschale Zahl.
+
 ## Redaktionelle Abgrenzung
 
 - Enthalten sind die auf der R+V-Privatkunden-Website angebotenen Versicherungs- und versicherungsnahen Absicherungswege; Varianten wie E-Auto, Wohnmobil oder Berufs-/Verkehrsrechtsschutz sind für schnelles Auffinden als eigene Beratungseinträge indexiert.

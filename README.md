@@ -1,4 +1,4 @@
-# RuVKompendium 1
+# RuVKompendium 4
 
 Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller Datenstand: **08.08.2026**.
 
@@ -7,10 +7,14 @@ Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller D
 - 80 Produkt- und Beratungswege in **Komposit**, **Leben** und **Kranken**
 - Tarif-/Variantenlogik einschließlich classic, comfort und premium, wo R+V diese Staffelung tatsächlich verwendet
 - Zusatzbausteine und Berater-Schnellchecks zu den zentralen Produkten
+- **Evidence Layer**: Quellen-Icons öffnen relevante, redaktionell verdichtete Bedingungsstellen direkt in der App – mit Dokument, Versionsstand und Fundstelle, ohne Web-Wechsel
+- Quellenbelege werden offline mit der PWA gespeichert und ebenfalls von der Live-Suche indexiert
 - Direkte Links zu R+V-Produktseiten und aktuellen Bedingungswerken/Bedingungszentrale
 - „OrbitSearch“: sofortige Suche über Produktnamen, Kürzel, Synonyme, Leistungsmerkmale, Tarife und Bausteine
 - Suchoperatoren wie `tarif:premium`, `doc:avb`, `baustein:naturgefahren`
 - Offline-Cache per Service Worker; PWA-Manifest und iPhone Home-Screen-Icon
+- „Navigator-K“-Icon als eigenständiges Monogramm in der R+V-Farbwelt
+- Edition 04: heller High-Contrast-Look plus kompakter, zweistufiger Quellen-Sheet für den Beratungsmodus
 - Keine externen Libraries, kein Build-Schritt
 
 ## GitHub Pages
@@ -24,7 +28,7 @@ Die App verwendet ausschließlich relative Asset-Pfade und funktioniert deshalb 
 
 ## Pflege der Daten
 
-Die Produktdaten stehen zentral in `data.js`. Jede Überarbeitung sollte als neue Edition `RuVKompendium2`, `RuVKompendium3` usw. geführt werden. `sw.js` erhält dafür ebenfalls einen neuen Cache-Namen.
+Die Produktdaten stehen zentral in `data.js`, die fachlich geprüften Quellenbelege in `evidence.js`. Jede Überarbeitung wird als neue fortlaufende Edition geführt; `sw.js` erhält dafür ebenfalls einen neuen Cache-Namen.
 
 ## Fachlicher Hinweis
 

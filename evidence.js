@@ -1,0 +1,95 @@
+/*
+ * RuVKompendium 4 – Evidence Layer
+ * Geprüft 08.08.2026 anhand offizieller R+V-Bedingungswerke bzw. ausdrücklich
+ * gekennzeichneter R+V-Produktseiten. Die Kurztexte sind redaktionelle
+ * Verdichtungen der angegebenen Fundstellen, keine vollständige AVB-Wiedergabe.
+ */
+const EVIDENCE_META={edition:4,checked:'08.08.2026'};
+
+const EVIDENCE={
+  'kfz-auto':[
+    {anchor:'tariff:premium',label:'Neupreisentschädigung premium',kind:'Bedingungswerk',source:'R+V Verbraucherinformation für Pkw',code:'AKB · Stand Juli 2026',location:'A.2.6 · S. 22',quote:'in der KfzPolice premium innerhalb von 30 Monaten',text:'Bei Totalschaden, Zerstörung oder Verlust kann in premium innerhalb von 30 Monaten nach Erstzulassung der Neupreis maßgeblich sein; die weiteren Voraussetzungen stehen in A.2.6.'},
+    {anchor:'tariff:comfort',label:'Neupreisentschädigung comfort',kind:'Bedingungswerk',source:'R+V Verbraucherinformation für Pkw',code:'AKB · Stand Juli 2026',location:'A.2.6 · S. 22',text:'Für comfort nennt A.2.6 bei Totalschaden, Zerstörung oder Verlust eine Neupreisregelung innerhalb von 12 Monaten nach Erstzulassung; weitere Voraussetzungen sind zu beachten.'},
+    {anchor:'addon:fahrerschutz',label:'Fahrerschutz',kind:'Bedingungswerk',source:'R+V Verbraucherinformation für Pkw',code:'AKB · Stand Juli 2026',location:'A.6.1–A.6.4 · S. 44–45',text:'Versichert ist der berechtigte Fahrer. Die Leistung für seinen Personenschaden erfolgt nach deutschem Haftpflichtrecht bis zur in A.6.4 genannten Höchstleistung.'},
+    {anchor:'addon:gap differenzdeckung',label:'Differenzdeckung / GAP',kind:'Bedingungswerk',source:'R+V Verbraucherinformation für Pkw',code:'AKB · Stand Juli 2026',location:'A.7 · S. 46–47',text:'A.7 regelt die Differenzdeckung für Leasing- und kreditfinanzierte Pkw einschließlich versicherter Ereignisse, Leistungsberechnung und Ausschlüsse.'}
+  ],
+
+  'phv':[
+    {anchor:'tariff:premium',label:'Schlüsselverlust premium',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HPB 07/26',location:'Z-SCHL-01/02 · HPB S. 47–48',quote:'Schäden aus dem Abhandenkommen von fremden berufsbezogenen Schlüsseln',text:'Die premium-Bedingungen erfassen private und berufsbezogene fremde Schlüssel sowie elektronische Schließmedien. Erfasst werden insbesondere notwendige Schloss-, Schlüssel- und Sperrkosten; konkrete Höchstbeträge ergeben sich aus Versicherungsschein/Nachtrag.'},
+    {anchor:'highlight:2',label:'Neuwertoption premium',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HPB 07/26',location:'Neuwertentschädigung · HPB S. 56',text:'Die Neuwertentschädigung setzt unter anderem einen irreparablen Schaden, die Einhaltung des vereinbarten Sachalters und eine vorherige Zeitwertregulierung voraus; Ausschlüsse sind in derselben Klausel geregelt.'}
+    ,{anchor:'highlight:2',label:'Premium-Leistungswerte',kind:'R+V Produktseite / Leistungstabelle',source:'Private Haftpflichtversicherung',code:'Tarifübersicht · geprüft 08.08.2026',location:'Neuwertersatz / Kfz-Be- und Entladeschäden',text:'Die aktuelle R+V-Tarifübersicht konkretisiert für premium den Neuwertersatz mit bis zu 10.000 EUR und Sachalter bis 2 Jahre sowie Kfz-Be-/Entladeschäden bis 10.000 EUR.'}
+  ],
+
+  'hausrat':[
+    {anchor:'tariff:premium',label:'Außenversicherung',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HRB 07/2026',location:'A12 · HRB S. 15–16',quote:'Außerhalb des Versicherungsorts besteht für versicherte Sachen weltweit Versicherungsschutz',text:'A12 regelt die weltweite Außenversicherung für nur vorübergehend außerhalb des Versicherungsorts befindlichen Hausrat. Dauer und Entschädigungsgrenze richten sich nach dem Versicherungsschein.'},
+    {anchor:'tariff:premium',label:'Premium-Leistungswerte',kind:'R+V Produktseite / Leistungstabelle',source:'Hausratversicherung',code:'Tarifübersicht · geprüft 08.08.2026',location:'Außenversicherung / Bargeld / Versehensschutz',text:'Die aktuelle Tarifübersicht nennt für premium 12 Monate Außenversicherung bis 100.000 EUR, Bargeld bis 5.000 EUR und Versehensschutz zu Hause bis 5.000 EUR bei 500 EUR Selbstbeteiligung.'},
+    {anchor:'highlight:0',label:'Hausrat und Wertsachen',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HRB 07/2026',location:'A8, A18 · HRB S. 13, 23–24',text:'Zum Hausrat gehören privat genutzte Sachen des Haushalts; Wertsachen und Bargeld sind mit besonderen Entschädigungsgrenzen einbezogen. Die vereinbarten Beträge stehen im Versicherungsschein.'},
+    {anchor:'highlight:0',label:'Versicherungssumme und Neuwert',kind:'R+V Produktseite / FAQ',source:'Hausratversicherung',code:'Leistungsübersicht · geprüft 08.08.2026',location:'Versicherungssumme / FAQ „Wie hoch sollte …?“',text:'R+V weist die Versicherungssumme in der Tarifübersicht für classic, comfort und premium als unbegrenzt aus. Die FAQ erläutert: Bei korrekter Angabe der Wohnfläche besteht Neuwertschutz und eine Unterversicherung wird ausgeschlossen.'},
+    {anchor:'addon:hausrat auf reisen',label:'Außenversicherung / Reisen',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HRB 07/2026',location:'A12 · HRB S. 15–16',text:'Der Schutz für Hausrat außerhalb der Wohnung ist über die Außenversicherung geregelt. Bei Naturgefahren bestehen innerhalb der Außenversicherung zusätzliche Einschränkungen.'}
+  ],
+
+  'unfall':[
+    {anchor:'addon:risikoplus',label:'RisikoPlus',kind:'Bedingungswerk',source:'R+V-UnfallPolice Verbraucherinformationen und Bedingungen',code:'R+V RisikoPlus',location:'RisikoPlus · Heft S. 80',quote:'um 50 %',text:'Bei Freizeitunfällen erhöht RisikoPlus die Invaliditätsleistung um 50 %, wenn der nach den Bedingungen ermittelte Invaliditätsgrad mindestens 20 % beträgt.'},
+    {anchor:'addon:premiumplus',label:'PremiumPlus',kind:'Bedingungswerk',source:'R+V-UnfallPolice Verbraucherinformationen und Bedingungen',code:'R+V PremiumPlus',location:'Nr. 6 ff. · Heft S. 75–79',quote:'bis zu 50.000 EUR',text:'PremiumPlus erweitert den Schutz unter anderem um kosmetische Operationen, Unfall-Service, Sofortleistung, Kurkosten, Umbaukosten sowie weitere Unfallbegriffs- und Leistungsverbesserungen.'},
+    {anchor:'addon:hilfeplus',label:'HilfePlus',kind:'Bedingungswerk',source:'R+V-UnfallPolice Verbraucherinformationen und Bedingungen',code:'R+V HilfePlus',location:'Abschnitt B Nr. 2 · Heft S. 73',quote:'insgesamt bis zu 20.000 EUR je Unfall',text:'HilfePlus umfasst Reha-Management; für vom Reha-Manager empfohlene erforderliche Maßnahmen gilt die in den Bedingungen genannte Gesamtgrenze. Hilfs- und Pflegeleistungen sind separat geregelt.'}
+  ],
+
+  'hund-op':[
+    {anchor:'highlight:1',label:'Wartezeiten Hunde-OP',kind:'Bedingungswerk',source:'Allgemeine Versicherungsbedingungen OPK Hund',code:'AVB OPKKT 2017 der VTV',location:'§ A 9 Nr. 3 · Heft S. 8',quote:'Für Schäden infolge Unfall gilt eine Wartezeit von einer Woche.',text:'Die Grundbedingungen nennen bei unfallbedingten Schäden eine Woche Wartezeit und bei sonstigen Schäden grundsätzlich einen Monat, sofern nichts Abweichendes vereinbart ist.'},
+    {anchor:'highlight:1',label:'Aktuelle Tarif-Wartezeiten',kind:'R+V Produktseite / Leistungstabelle',source:'Hunde-OP-Versicherung',code:'Basis / Premium / Exzellent · geprüft 08.08.2026',location:'Selbstbeteiligung und Wartezeiten',text:'Die aktuelle Tarifübersicht weist für Unfall-OPs eine Woche in Basis und Premium sowie keine Wartezeit in Exzellent aus. Für sonstige Operationen werden in allen drei Varianten 28 Tage genannt; für einzelne Leistungsarten gelten Sonderwartezeiten.'}
+  ],
+
+  'pkv':[
+    {anchor:'tariff:agil classic pro',label:'AGIL classic pro',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'PKX 07/26 · CP0U–CP3U',location:'Tarifteil ab Heft S. 37',text:'AGIL classic pro ist als Primärarzttarif für ambulante, zahnärztliche und stationäre Heilbehandlung im Dreibettzimmer ohne privatärztliche stationäre Behandlung beschrieben.'},
+    {anchor:'tariff:agil comfort',label:'AGIL comfort',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'PKX 07/26 · MP0U–MP3U',location:'Tarifteil ab Heft S. 46',text:'AGIL comfort ist als Primärarzttarif mit ambulanten und zahnärztlichen Leistungen sowie stationärer Heilbehandlung im Zweibettzimmer und privatärztlicher Behandlung beschrieben.'},
+    {anchor:'tariff:agil premium',label:'AGIL premium',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'PKX 07/26 · TN0U–TN3U',location:'Tarifteil ab Heft S. 55',text:'AGIL premium umfasst ambulante und zahnärztliche sowie stationäre Heilbehandlung im Einbettzimmer und privatärztliche Behandlung; Details und Erstattungsgrenzen stehen im Tarifteil.'}
+  ],
+
+  'zahn':[
+    {anchor:'tariff:zahn premium',label:'Zahn premium',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'Z1U · gültig ab 01.01.2023',location:'Nr. 2.3–2.5 · Tarifseite 1–2 / Heft S. 145–146',quote:'zu 90 %',text:'Z1U erstattet medizinisch notwendigen Zahnersatz zu 90 % unter Anrechnung von GKV- und anderen Versicherungsleistungen. In den ersten vier Kalenderjahren gilt die tarifliche Leistungsstaffel.'},
+    {anchor:'tariff:zahn comfort',label:'Zahn comfort',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'Z2U · gültig ab 01.01.2023',location:'Nr. 2.3–2.5 · Tarifseite 1–2 / Heft S. 148–149',quote:'zu 70 %',text:'Z2U erstattet medizinisch notwendigen Zahnersatz zu 70 % unter Anrechnung von GKV- und anderen Versicherungsleistungen; für Kieferorthopädie und die ersten vier Kalenderjahre gelten eigene Grenzen.'},
+    {anchor:'tariff:zahn classic',label:'Zahn classic',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'Z3U · gültig ab 01.01.2023',location:'Nr. 2.2 · Tarifseite 1 / Heft S. 151',text:'Z3U erstattet für erstattungsfähigen Zahnersatz den gleichen Betrag wie der von der GKV anerkannte Festzuschuss, höchstens bis zum verbleibenden erstattungsfähigen Eigenanteil.'},
+    {anchor:'highlight:0',label:'Zahnstaffel comfort / premium',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'Z1U / Z2U',location:'Nr. 2.4 · Heft S. 145 bzw. 148',text:'Für Z1U und Z2U sind in den ersten vier Kalenderjahren 1.000 / 2.000 / 3.000 / 4.000 EUR als gestaffelte Leistungsgrenzen geregelt; ab dem fünften Jahr entfällt diese Begrenzung, ebenso bei nachweislich unfallbedingter Behandlung.'}
+  ],
+
+  'klinik':[
+    {anchor:'tariff:klinik premium',label:'Klinik premium',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'K1U · gültig ab 01.01.2023',location:'Nr. 2.1 · Tarifseite 1 / Heft S. 131',quote:'zu 100 %',text:'K1U erstattet bei medizinisch notwendiger stationärer Behandlung unter den tariflichen Voraussetzungen Ein- oder Zweibettzimmer und gesondert berechnete wahlärztliche Leistungen zu 100 %. Honorarvereinbarungen oberhalb der GOÄ-Höchstsätze können unter den genannten Voraussetzungen erstattungsfähig sein.'},
+    {anchor:'tariff:klinik comfort',label:'Klinik comfort',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'K2U · gültig ab 01.01.2025',location:'Tarifteil ab Heft S. 136',text:'K2U ist als Zusatzversicherung für stationäre Behandlung im Zweibettzimmer geregelt; die konkrete Erstattung folgt dem Tarifteil K2U.'},
+    {anchor:'tariff:klinik classic',label:'Klinik classic',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'K3U · gültig ab 01.01.2025',location:'Tarifteil ab Heft S. 140',text:'K3U ist als Zusatzversicherung für stationäre Behandlung im Zweibettzimmer infolge von Unfällen geregelt. Für diesen Tarif nennt das Bedingungsheft keine Wartezeit.'}
+  ],
+
+  'agu':[
+    {anchor:'tariff:kostenerstattung ambulant',label:'Kostenerstattung ambulant',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'AGU · gültig ab 01.01.2023',location:'Nr. 2.1 · Tarifseite 1 / Heft S. 121',quote:'zu 80 %',text:'Nach GKV-Vorleistung werden 80 % der erstattungsfähigen Restaufwendungen ersetzt; oberhalb von 1.000 EUR Restaufwendungen im Kalenderjahr gilt für den darüberliegenden Teil 100 %. Ohne GKV-Vorleistung sind 40 % vorgesehen.'}
+  ],
+
+  'naturmedizin':[
+    {anchor:'tariff:naturmedizin',label:'NaturMedizin',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'N1U · gültig ab 01.01.2023',location:'Nr. 2 · Tarifseite 1 / Heft S. 164',quote:'zu 80 %',text:'N1U erstattet definierte ambulante Naturheilverfahren nach Vorleistungen zu 80 %. In den ersten zwei Kalenderjahren gilt maximal 400 EUR; danach maximal 2.400 EUR innerhalb von jeweils zwei Kalenderjahren.'}
+  ],
+
+  'blickcheck':[
+    {anchor:'tariff:premium',label:'Blick + Check premium',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'BC1U · gültig ab 01.01.2023',location:'Nr. 2 · Tarifseite 1 / Heft S. 125',text:'BC1U erstattet innerhalb von jeweils zwei Kalenderjahren Sehhilfen bzw. gleichgestellte Augenlaserleistungen und ambulante Vorsorge jeweils bis 400 EUR.'},
+    {anchor:'tariff:comfort',label:'Blick + Check comfort',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'BC2U',location:'Tarifteil ab Heft S. 127',text:'BC2U ist die comfort-Stufe für Sehhilfen und Vorsorge. Die im Tarifteil geregelte Grenze beträgt je Leistungsbereich 200 EUR innerhalb von zwei Kalenderjahren.'},
+    {anchor:'tariff:classic',label:'Blick + Check classic',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'BC3U',location:'Tarifteil ab Heft S. 129',text:'BC3U ist die classic-Stufe für Sehhilfen und Vorsorge. Die im Tarifteil geregelte Grenze beträgt je Leistungsbereich 100 EUR innerhalb von zwei Kalenderjahren; es gelten keine tariflichen Wartezeiten.'}
+  ],
+
+  'pflege-monat':[
+    {anchor:'tariff:premium',label:'PflegeVorsorge premium',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'PM1 · AVB/EPV',location:'Nr. 2.1 a · Tarifseite 2 / Heft S. 266',text:'PM1 leistet in Pflegegrad 1 10 % und in Pflegegrad 2 bis 5 jeweils 100 % des vereinbarten Pflegemonatsgelds – ambulant wie vollstationär.'},
+    {anchor:'tariff:comfort',label:'PflegeVorsorge comfort',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'PM2 · AVB/EPV',location:'Nr. 2.1 b · Tarifseite 2 / Heft S. 266',text:'PM2 leistet ambulant 10 % / 30 % / 70 % / 100 % / 100 % für Pflegegrad 1 bis 5; vollstationär sind ab Pflegegrad 2 jeweils 100 % vorgesehen.'},
+    {anchor:'tariff:classic',label:'PflegeVorsorge classic',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'PM3 · AVB/EPV',location:'Nr. 2.1 c · Tarifseite 2 / Heft S. 266',text:'PM3 sieht Leistungen ab Pflegegrad 3 vor: ambulant 70 % in Pflegegrad 3 sowie 100 % in Pflegegrad 4 und 5; vollstationär jeweils 100 % in Pflegegrad 3 bis 5.'},
+    {anchor:'highlight:2',label:'Familienleistung',kind:'Bedingungswerk',source:'Bedingungsheft R+V Krankenversicherung AG',code:'PM1 / PM2 / PM3 · AVB/EPV',location:'Nr. 2.2 · Tarifseite 2 / Heft S. 266',text:'Bei Eintritt des Pflegefalls mit mindestens einem minderjährigen Kind wird das tarifliche Pflegemonatsgeld verdoppelt; die Verdoppelung endet mit dem Monat, in dem das jüngste maßgebliche Kind 18 wird.'},
+    {anchor:'highlight:2',label:'Beitragspause nach Geburt',kind:'R+V Produktseite',source:'Pflegemonatsgeld / R+V-PflegeVorsorge',code:'Produktübersicht · geprüft 08.08.2026',location:'Unterstützung für Familien mit Kindern',text:'Die aktuelle Produktseite beschreibt nach einer Geburt eine Option auf Beitragspause mit vollem Versicherungsschutz für bis zu zwei Jahre. Die konkrete Inanspruchnahme richtet sich nach den vertraglichen Voraussetzungen.'}
+  ],
+
+  'risikoleben':[
+    {anchor:'tariff:comfort',label:'Comfort-Zusatzleistungen',kind:'Bedingungswerk',source:'Allgemeine Versicherungsbedingungen R+V-Risikoversicherung',code:'1E37 · Stand 01.07.2026',location:'§ 2 und § 12 · S. 2, 11–12',quote:'höchstens 15 Jahre',text:'Comfort und premium enthalten Kinder- und Bau-Bonus. Außerdem kann die Versicherungsdauer unter den Voraussetzungen des § 12 einmalig ohne erneute Risikoprüfung um bis zu 15 Jahre verlängert werden.'},
+    {anchor:'tariff:premium',label:'Premium Pflege-Bonus',kind:'Bedingungswerk',source:'Allgemeine Versicherungsbedingungen R+V-Risikoversicherung',code:'1E37 · Stand 01.07.2026',location:'§ 3 · S. 3',quote:'10 % der aktuellen Versicherungssumme',text:'Premium enthält zusätzlich den Pflege-Bonus. Bei den in § 3 definierten Voraussetzungen beträgt er bei gleichbleibender Versicherungssumme 10 % der aktuellen Versicherungssumme, höchstens 15.000 EUR.'},
+    {anchor:'highlight:1',label:'Kinder- und Bau-Bonus',kind:'Bedingungswerk',source:'Allgemeine Versicherungsbedingungen R+V-Risikoversicherung',code:'1E37 · Stand 01.07.2026',location:'§ 2 · S. 2',quote:'25.000 EUR',text:'Für comfort und premium sind Kinder- und Bau-Bonus geregelt. Bei gleichbleibender Versicherungssumme beträgt jeder Bonus 25.000 EUR; jeweils gelten das definierte Ereignisfenster und die weiteren Voraussetzungen.'}
+  ],
+
+  'bu':[
+    {anchor:'tariff:classic',label:'BU classic – Leistungsbeginn',kind:'R+V Produktseite / AVB-Verweis',source:'R+V Berufsunfähigkeitsversicherung',code:'BV29 · AVB-Stand 01.04.2026',location:'Leistungstabelle der Produktseite',text:'R+V weist für classic die BU-Rente nach 18 Monaten aus. Die Produktseite nennt ausdrücklich BV29 mit AVB-Stand 01.04.2026 als maßgebliche Bedingungsgrundlage.'},
+    {anchor:'tariff:comfort',label:'BU comfort – Leistungsbeginn',kind:'R+V Produktseite / AVB-Verweis',source:'R+V Berufsunfähigkeitsversicherung',code:'BV30 · AVB-Stand 01.04.2026',location:'Leistungstabelle der Produktseite',text:'R+V weist für comfort die rückwirkende Zahlung ab Beginn der bedingungsgemäßen Berufsunfähigkeit aus; BV30, Stand 01.04.2026, ist als maßgebliche AVB genannt.'},
+    {anchor:'tariff:premium',label:'BU premium – Leistungsbeginn',kind:'R+V Produktseite / AVB-Verweis',source:'R+V Berufsunfähigkeitsversicherung',code:'BV31 · AVB-Stand 01.04.2026',location:'Leistungstabelle der Produktseite',text:'R+V weist für premium die rückwirkende Zahlung ab Beginn der bedingungsgemäßen Berufsunfähigkeit aus; BV31, Stand 01.04.2026, ist als maßgebliche AVB genannt.'},
+    {anchor:'highlight:1',label:'50 % / Prognose / abstrakte Verweisung',kind:'R+V Produktseite / AVB-Verweis',source:'R+V Berufsunfähigkeitsversicherung',code:'BV29 / BV30 / BV31 · AVB-Stand 01.04.2026',location:'Produktübersicht und FAQ',text:'Die R+V-Produktseite nennt volle BU-Rente ab 50 % Berufsunfähigkeit, einen Prognosezeitraum von sechs Monaten und den Verzicht auf abstrakte Verweisung. Die vollständigen Definitionen bleiben den jeweiligen AVB vorbehalten.'}
+  ]
+};

@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#003b73">
+  <meta name="theme-color" content="#f4f8fb">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="RuVKompendium 1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="RuVKompendium 4">
   <meta name="description" content="R+V Privatkunden-Kompendium für die schnelle Beratung.">
-  <title>RuVKompendium 1</title>
+  <title>RuVKompendium 4</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icon-180.png">
@@ -18,8 +18,8 @@
   <div class="aurora aurora-a"></div><div class="aurora aurora-b"></div>
   <header class="topbar glass">
     <button class="brand" id="homeBtn" aria-label="Startseite">
-      <span class="brand-mark"><i></i><b>R+V</b></span>
-      <span><strong>Kompendium</strong><small>PRIVATE · EDITION 01</small></span>
+      <span class="brand-mark"><img src="./icon.svg" alt=""></span>
+      <span><strong>Kompendium</strong><small>PRIVATE · EDITION 04</small></span>
     </button>
     <button class="icon-btn" id="infoBtn" aria-label="Informationen">i</button>
   </header>
@@ -69,18 +69,31 @@
     </div>
   </dialog>
 
+  <dialog id="evidenceDialog" class="detail-dialog evidence-dialog">
+    <div class="detail-shell evidence-shell">
+      <div class="detail-grip"></div>
+      <button class="detail-close" id="evidenceClose" aria-label="Quellenbeleg schließen">×</button>
+      <p class="eyebrow">QUELLENBELEG · OFFLINE</p>
+      <h2 id="evidenceTitle">Bedingungsstelle</h2>
+      <div id="evidenceContent"></div>
+      <div class="evidence-note">Redaktionell verdichtete Bedingungsstellen für den schnellen Beratungszugriff. Maßgeblich bleiben Versicherungsschein, Nachträge und der vollständige Wortlaut der konkret vereinbarten Bedingungen.</div>
+    </div>
+  </dialog>
+
   <dialog id="infoDialog" class="detail-dialog info-dialog">
     <div class="detail-shell">
       <div class="detail-grip"></div>
       <button class="detail-close" id="infoClose" aria-label="Schließen">×</button>
       <p class="eyebrow">ÜBER DIE EDITION</p>
-      <h2>RuVKompendium 1</h2>
+      <h2>RuVKompendium 4</h2>
       <p>Redaktionelle Schnellübersicht für Versicherungsberater. Portfolio- und Leistungsdaten wurden am 08.08.2026 anhand der öffentlichen R+V-Privatkunden- und Bedingungsseiten geprüft.</p>
+      <p>Neu in Edition 04: Quellen-Icons an fachlich belegten Angaben öffnen die relevante Bedingungsstelle direkt in der App – inklusive Bedingungswerk, Stand, Abschnitt/Seite und redaktioneller Kurzfassung.</p>
       <div class="notice">Im Beratungs- und Leistungsfall gelten ausschließlich Versicherungsschein, Nachträge und die jeweils vereinbarten Versicherungsbedingungen. Preise, Aktionen und Annahmeregeln können sich ändern.</div>
       <a class="source-button" href="https://www.ruv.de/service/weitere-services/versicherungsbedingungen" target="_blank" rel="noopener">R+V Bedingungszentrale ↗</a>
     </div>
   </dialog>
 
+  <script src="./evidence.js"></script>
   <script src="./data.js"></script>
   <script src="./app.js"></script>
 </body>
