@@ -1,10 +1,10 @@
 /*
- * RuVKompendium 4 – Evidence Layer
+ * RuVKompendium 5 – Evidence Layer
  * Geprüft 08.08.2026 anhand offizieller R+V-Bedingungswerke bzw. ausdrücklich
  * gekennzeichneter R+V-Produktseiten. Die Kurztexte sind redaktionelle
  * Verdichtungen der angegebenen Fundstellen, keine vollständige AVB-Wiedergabe.
  */
-const EVIDENCE_META={edition:4,checked:'08.08.2026'};
+const EVIDENCE_META={edition:5,checked:'08.08.2026'};
 
 const EVIDENCE={
   'kfz-auto':[
@@ -26,6 +26,12 @@ const EVIDENCE={
     {anchor:'highlight:0',label:'Hausrat und Wertsachen',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HRB 07/2026',location:'A8, A18 · HRB S. 13, 23–24',text:'Zum Hausrat gehören privat genutzte Sachen des Haushalts; Wertsachen und Bargeld sind mit besonderen Entschädigungsgrenzen einbezogen. Die vereinbarten Beträge stehen im Versicherungsschein.'},
     {anchor:'highlight:0',label:'Versicherungssumme und Neuwert',kind:'R+V Produktseite / FAQ',source:'Hausratversicherung',code:'Leistungsübersicht · geprüft 08.08.2026',location:'Versicherungssumme / FAQ „Wie hoch sollte …?“',text:'R+V weist die Versicherungssumme in der Tarifübersicht für classic, comfort und premium als unbegrenzt aus. Die FAQ erläutert: Bei korrekter Angabe der Wohnfläche besteht Neuwertschutz und eine Unterversicherung wird ausgeschlossen.'},
     {anchor:'addon:hausrat auf reisen',label:'Außenversicherung / Reisen',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HRB 07/2026',location:'A12 · HRB S. 15–16',text:'Der Schutz für Hausrat außerhalb der Wohnung ist über die Außenversicherung geregelt. Bei Naturgefahren bestehen innerhalb der Außenversicherung zusätzliche Einschränkungen.'}
+  ],
+
+  'pv':[
+    {anchor:'highlight:0',label:'Private Photovoltaikanlagen bis 30 kWp',kind:'R+V Produktseite / Leistungstabelle',source:'R+V Photovoltaikversicherung',code:'Produktdarstellung · geprüft 08.08.2026',location:'Photovoltaikversicherung für Privatkunden',text:'R+V ordnet den privaten Photovoltaikschutz als Zusatzbaustein der Wohngebäudeversicherung ein und nennt für diesen Produktweg Dachanlagen bis 30 kWp.'},
+    {anchor:'highlight:1',label:'Versicherbare Gefahren',kind:'R+V Produktseite / Leistungstabelle',source:'R+V Photovoltaikversicherung',code:'Produktdarstellung · geprüft 08.08.2026',location:'Leistungen Photovoltaik',text:'Die Produktdarstellung nennt unter anderem Sturm und Hagel, Diebstahl, Überspannung sowie Tierbiss. Maßgeblich für Umfang, Ausschlüsse und Entschädigung bleiben Tarif, Vereinbarung und Bedingungen.'},
+    {anchor:'highlight:2',label:'Ertragsausfall',kind:'R+V Produktseite / Leistungstabelle',source:'R+V Photovoltaikversicherung',code:'Produktdarstellung · geprüft 08.08.2026',location:'Optionaler Ertragsausfall',text:'Der Ertragsausfall kann optional vereinbart werden. Die aktuelle Produktseite beschreibt eine wählbare Leistungsdauer von bis zu 180 Tagen.'}
   ],
 
   'unfall':[
@@ -80,10 +86,24 @@ const EVIDENCE={
     {anchor:'highlight:2',label:'Beitragspause nach Geburt',kind:'R+V Produktseite',source:'Pflegemonatsgeld / R+V-PflegeVorsorge',code:'Produktübersicht · geprüft 08.08.2026',location:'Unterstützung für Familien mit Kindern',text:'Die aktuelle Produktseite beschreibt nach einer Geburt eine Option auf Beitragspause mit vollem Versicherungsschutz für bis zu zwei Jahre. Die konkrete Inanspruchnahme richtet sich nach den vertraglichen Voraussetzungen.'}
   ],
 
+  'pflege-tag':[
+    {anchor:'tariff:pflege forderbahr',label:'Pflege FörderBahr (PKB)',kind:'R+V Produktseite / Tarifinformation',source:'R+V-Pflege FörderBahr',code:'Tarif PKB · geprüft 08.08.2026',location:'Leistung und Förderung',text:'Der staatlich geförderte Tarif leistet abhängig vom Pflegegrad. Für Pflegegrad 5 nennt die Produktdarstellung mindestens 20 EUR täglich bzw. 600 EUR monatlich bei Vorliegen der Fördervoraussetzungen.'},
+    {anchor:'highlight:0',label:'Staatlicher Zuschuss',kind:'R+V Produktseite / Tarifinformation',source:'R+V-Pflege FörderBahr',code:'Tarif PKB · geprüft 08.08.2026',location:'Staatliche Förderung',text:'Die aktuelle R+V-Produktseite nennt einen staatlichen Zuschuss von 5 EUR monatlich beziehungsweise 60 EUR jährlich, sofern die gesetzlichen Fördervoraussetzungen erfüllt sind.'},
+    {anchor:'highlight:1',label:'Annahme ohne Gesundheitsfragen',kind:'R+V Produktseite / Tarifinformation',source:'R+V-Pflege FörderBahr',code:'Tarif PKB · geprüft 08.08.2026',location:'Voraussetzungen / Annahme',text:'R+V beschreibt den Fördertarif ohne Gesundheitsfragen, ohne Risikozuschläge und ohne krankheitsbezogene Leistungsausschlüsse. Die weiteren Zugangsvoraussetzungen des Fördertarifs sind zu beachten.'},
+    {anchor:'highlight:2',label:'Leistungsstaffel nach Pflegegrad',kind:'R+V Produktseite / Tarifinformation',source:'R+V-Pflege FörderBahr',code:'Tarif PKB · geprüft 08.08.2026',location:'Leistungen nach Pflegegrad',text:'Die Produktdarstellung staffelt das vereinbarte Tagegeld für Pflegegrad 1 bis 5 mit 10 %, 30 %, 70 %, 100 % und 100 %.'},
+    {anchor:'highlight:3',label:'Wartezeit',kind:'R+V Produktseite / Tarifinformation',source:'R+V-Pflege FörderBahr',code:'Tarif PKB · geprüft 08.08.2026',location:'Wartezeit',text:'Für den Fördertarif wird eine Wartezeit von fünf Jahren beschrieben; bei unfallbedingter Pflegebedürftigkeit entfällt sie nach der aktuellen Produktdarstellung.'}
+  ],
+
   'risikoleben':[
     {anchor:'tariff:comfort',label:'Comfort-Zusatzleistungen',kind:'Bedingungswerk',source:'Allgemeine Versicherungsbedingungen R+V-Risikoversicherung',code:'1E37 · Stand 01.07.2026',location:'§ 2 und § 12 · S. 2, 11–12',quote:'höchstens 15 Jahre',text:'Comfort und premium enthalten Kinder- und Bau-Bonus. Außerdem kann die Versicherungsdauer unter den Voraussetzungen des § 12 einmalig ohne erneute Risikoprüfung um bis zu 15 Jahre verlängert werden.'},
     {anchor:'tariff:premium',label:'Premium Pflege-Bonus',kind:'Bedingungswerk',source:'Allgemeine Versicherungsbedingungen R+V-Risikoversicherung',code:'1E37 · Stand 01.07.2026',location:'§ 3 · S. 3',quote:'10 % der aktuellen Versicherungssumme',text:'Premium enthält zusätzlich den Pflege-Bonus. Bei den in § 3 definierten Voraussetzungen beträgt er bei gleichbleibender Versicherungssumme 10 % der aktuellen Versicherungssumme, höchstens 15.000 EUR.'},
     {anchor:'highlight:1',label:'Kinder- und Bau-Bonus',kind:'Bedingungswerk',source:'Allgemeine Versicherungsbedingungen R+V-Risikoversicherung',code:'1E37 · Stand 01.07.2026',location:'§ 2 · S. 2',quote:'25.000 EUR',text:'Für comfort und premium sind Kinder- und Bau-Bonus geregelt. Bei gleichbleibender Versicherungssumme beträgt jeder Bonus 25.000 EUR; jeweils gelten das definierte Ereignisfenster und die weiteren Voraussetzungen.'}
+  ],
+
+  'restschuld':[
+    {anchor:'highlight:0',label:'Finanzierung und Laufzeit',kind:'R+V Produktseite / Leistungstabelle',source:'RatenschutzPolice: Die Restschuldversicherung der R+V',code:'Produktdarstellung · geprüft 08.08.2026',location:'Produktmerkmale',text:'R+V nennt für die RatenschutzPolice Finanzierungen bis 100.000 EUR. Die Versicherungsdauer orientiert sich an der Kreditlaufzeit und ist auf höchstens zehn Jahre begrenzt.'},
+    {anchor:'highlight:1',label:'Wartezeit und Gesundheitsfragen',kind:'R+V Produktseite / Leistungstabelle',source:'RatenschutzPolice: Die Restschuldversicherung der R+V',code:'Produktdarstellung · geprüft 08.08.2026',location:'Abschluss / Wartezeiten',text:'Die Produktdarstellung nennt keine Gesundheitsfragen beim Abschluss und eine dreimonatige Wartezeit für Arbeitslosigkeit, Kurzarbeit und Scheidung. Weitere Voraussetzungen sind tarifabhängig.'},
+    {anchor:'highlight:2',label:'Leistung nach versichertem Risiko',kind:'R+V Produktseite / Leistungstabelle',source:'RatenschutzPolice: Die Restschuldversicherung der R+V',code:'Produktdarstellung · geprüft 08.08.2026',location:'Leistungsübersicht',text:'Je nach eingeschlossenem Risiko nennt die Produktseite monatliche Leistungen bis 2.500 EUR bei Arbeitslosigkeit/Kurzarbeit oder Arbeitsunfähigkeit, eine Scheidungsleistung bis 15.000 EUR und bei Tod 110 % der aktuellen versicherten Summe.'}
   ],
 
   'bu':[
