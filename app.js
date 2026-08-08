@@ -1,4 +1,4 @@
-/* RuVKompendium 5 – offline-first, dependency-free, GitHub Pages friendly */
+/* RuVKompendium 6 – offline-first, dependency-free, GitHub Pages friendly */
 const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s)];
 const state={category:'Alle',query:'',limit:18};
 const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[+&/–—-]/g,' ').replace(/[^a-z0-9äöü ]/g,' ').replace(/\s+/g,' ').trim();

@@ -20,7 +20,7 @@ Prüfstand: **08.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V 
 
 Jeder Eintrag in der App enthält zusätzlich seine konkrete R+V-Produktseite sowie das zugeordnete Bedingungswerk oder – wo mehrere Sonderbedingungen greifen – die offizielle Bedingungszentrale.
 
-## Evidence Layer – Edition 05
+## Evidence Layer – Edition 06
 
 Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen offiziellen R+V-Unterlagen separat ausgewertet. Diese Belege stehen in `evidence.js` und werden über das kleine Quellen-Icon direkt in der App angezeigt. Enthalten sind insbesondere Tarifabgrenzungen und zentrale Leistungsmerkmale aus:
 

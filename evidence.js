@@ -1,10 +1,10 @@
 /*
- * RuVKompendium 5 – Evidence Layer
+ * RuVKompendium 6 – Evidence Layer
  * Geprüft 08.08.2026 anhand offizieller R+V-Bedingungswerke bzw. ausdrücklich
  * gekennzeichneter R+V-Produktseiten. Die Kurztexte sind redaktionelle
  * Verdichtungen der angegebenen Fundstellen, keine vollständige AVB-Wiedergabe.
  */
-const EVIDENCE_META={edition:5,checked:'08.08.2026'};
+const EVIDENCE_META={edition:6,checked:'08.08.2026'};
 
 const EVIDENCE={
   'kfz-auto':[
