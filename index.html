@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#003b73">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RuVKompendium 1">
+  <meta name="description" content="R+V Privatkunden-Kompendium für die schnelle Beratung.">
+  <title>RuVKompendium 1</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon-180.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="aurora aurora-a"></div><div class="aurora aurora-b"></div>
+  <header class="topbar glass">
+    <button class="brand" id="homeBtn" aria-label="Startseite">
+      <span class="brand-mark"><i></i><b>R+V</b></span>
+      <span><strong>Kompendium</strong><small>PRIVATE · EDITION 01</small></span>
+    </button>
+    <button class="icon-btn" id="infoBtn" aria-label="Informationen">i</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow"><span></span> BERATER NAVIGATOR · STAND 08.08.2026</p>
+      <h1>Wissen finden.<br><em>Bevor die Frage endet.</em></h1>
+      <p class="lede">Produkte, Tarife, Bausteine und Bedingungswerke der R+V für Privatkunden – verdichtet auf Beratungsgeschwindigkeit.</p>
+    </section>
+
+    <section class="search-zone glass" aria-label="Suche">
+      <div class="search-row">
+        <span class="search-symbol">⌕</span>
+        <input id="searchInput" type="search" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="z. B. Schlüsselverlust, BU, premium …" aria-label="Kompendium durchsuchen">
+        <button id="clearBtn" class="clear-btn" aria-label="Suche löschen">×</button>
+      </div>
+      <div class="filter-scroller" id="categoryFilters" aria-label="Kategorien"></div>
+      <div class="search-hints">
+        <button data-query="tarif:premium">tarif:premium</button>
+        <button data-query="doc:avb">doc:avb</button>
+        <button data-query="baustein:naturgefahren">baustein:naturgefahren</button>
+      </div>
+    </section>
+
+    <section class="command-strip" id="stats"></section>
+
+    <section class="results-head">
+      <div><p class="eyebrow">LIVE INDEX</p><h2 id="resultTitle">Empfohlene Einstiege</h2></div>
+      <span class="result-count" id="resultCount"></span>
+    </section>
+    <section id="results" class="results" aria-live="polite"></section>
+  </main>
+
+  <nav class="dock glass" aria-label="Hauptnavigation">
+    <button class="dock-btn active" data-cat="Alle"><span>⌕</span>Suche</button>
+    <button class="dock-btn" data-cat="Komposit"><span>◈</span>Komposit</button>
+    <button class="dock-btn" data-cat="Leben"><span>∞</span>Leben</button>
+    <button class="dock-btn" data-cat="Kranken"><span>✚</span>Kranken</button>
+  </nav>
+
+  <dialog id="detailDialog" class="detail-dialog">
+    <div class="detail-shell">
+      <div class="detail-grip"></div>
+      <button class="detail-close" id="detailClose" aria-label="Schließen">×</button>
+      <div id="detailContent"></div>
+    </div>
+  </dialog>
+
+  <dialog id="infoDialog" class="detail-dialog info-dialog">
+    <div class="detail-shell">
+      <div class="detail-grip"></div>
+      <button class="detail-close" id="infoClose" aria-label="Schließen">×</button>
+      <p class="eyebrow">ÜBER DIE EDITION</p>
+      <h2>RuVKompendium 1</h2>
+      <p>Redaktionelle Schnellübersicht für Versicherungsberater. Portfolio- und Leistungsdaten wurden am 08.08.2026 anhand der öffentlichen R+V-Privatkunden- und Bedingungsseiten geprüft.</p>
+      <div class="notice">Im Beratungs- und Leistungsfall gelten ausschließlich Versicherungsschein, Nachträge und die jeweils vereinbarten Versicherungsbedingungen. Preise, Aktionen und Annahmeregeln können sich ändern.</div>
+      <a class="source-button" href="https://www.ruv.de/service/weitere-services/versicherungsbedingungen" target="_blank" rel="noopener">R+V Bedingungszentrale ↗</a>
+    </div>
+  </dialog>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
