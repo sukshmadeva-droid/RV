@@ -1,4 +1,4 @@
-/* RuVKompendium 13 – offline-first, dependency-free, GitHub Pages friendly */
+/* RuVKompendium 15 – offline-first, dependency-free, GitHub Pages friendly */
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const state = { category: 'Alle', query: '', limit: 18, detailProduct: null, matrixQuery: '', matrixVariant: 'Alle' };
@@ -38,7 +38,7 @@ function evidenceFor(product, anchor) { return (EVIDENCE[product.id] || []).filt
 function evidenceButton(product, anchor) {
   const count = evidenceFor(product, anchor).length;
   const label = `${count} Quellenbeleg${count === 1 ? '' : 'e'} anzeigen`;
-  return count ? `<button class="evidence-btn" type="button" data-product="${product.id}" data-anchor="${esc(anchor)}" aria-label="${label}" title="${label}"><span>${count}</span></button>` : '';
+  return count ? `<button class="evidence-btn" type="button" data-product="${product.id}" data-anchor="${esc(anchor)}" aria-label="${label}" title="${label}"><span>${count}</span></button>` : '<span class="unverified-badge" title="Keine genaue Aussagefundstelle hinterlegt">UNBELEGT</span>';
 }
 function matrixText(product) {
   const matrix = COVERAGE[product.id];
@@ -82,6 +82,62 @@ function score(product, raw) {
 function filtered() {
   return PRODUCTS.filter(product => state.category === 'Alle' || product.category === state.category).map(product => ({ product, score: score(product, state.query) })).filter(item => item.score >= 0).sort((a, b) => b.score - a.score || a.product.subcategory.localeCompare(b.product.subcategory) || a.product.name.localeCompare(b.product.name)).slice(0, state.limit).map(item => item.product);
 }
+
+const QUESTION_WORDS = /\?|\b(?:bin|ist|sind|gilt|geht|deckt|zahlt|leistet|versichert|mitversichert|enthalten|kann|darf|muss|welche|welcher|welches|was|wer|wann|wie|warum)\b/i;
+const QUESTION_STOP = new Set(['bin','ich','ist','sind','das','damit','darin','dabei','der','die','den','dem','ein','eine','einer','es','und','oder','im','in','mit','von','fur','für','was','wer','wann','wie','welche','welcher','welches','bitte','mir','meine','mein','kunde','kundin','versichert','mitversichert','enthalten','deckt','zahlt','leistet','gilt','geht']);
+function questionProducts(raw) {
+  const normalized = norm(raw);
+  return PRODUCTS.map(product => {
+    const names = [product.name, ...(product.aliases || [])].map(norm).filter(name => name.length > 3);
+    const explicit = Math.max(0, ...names.filter(name => normalized.includes(name)).map(name => name.length));
+    return { product, score: score(product, raw) + explicit * 5 };
+  }).filter(item => item.score >= 0).sort((a,b) => b.score-a.score).slice(0,4);
+}
+function questionRows(product, raw) {
+  const matrix = COVERAGE[product.id]; if (!matrix) return [];
+  const productWords = new Set(norm(`${product.name} ${(product.aliases||[]).join(' ')}`).split(' '));
+  const terms = parseQuery(raw).text.filter(term => term.length > 2 && !QUESTION_STOP.has(term) && !productWords.has(term));
+  if (!terms.length) return [];
+  return matrix.rows.map(row => {
+    const haystack = norm(`${row.group} ${row.feature} ${Object.values(row.values).map(value=>value.detail).join(' ')}`);
+    return { row, hits: terms.filter(term => textHit(haystack, term) > 0).length };
+  })
+    .filter(item => item.hits).sort((a,b)=>b.hits-a.hits).slice(0,6).map(item=>item.row);
+}
+function answerSourceBadge(row) {
+  const audit = row.audit || sourceAudit(row);
+  return `<span class="answer-source quality-${audit.level}">${esc(audit.label)}</span>`;
+}
+function renderQuestionAnswer() {
+  const panel = $('#answerPanel'), raw = state.query.trim();
+  if (!raw || !QUESTION_WORDS.test(raw)) { panel.hidden = true; panel.innerHTML = ''; return; }
+  panel.hidden = false;
+  const unsafeRequest = /ohne quelle|lass(?:e)? .*ausschl|nur (?:die )?vorteile/i.test(raw);
+  const unknownVersion = /(tarif|bedingungs)stand.*(?:nicht|unbekannt)|wei(?:ß|ss).*stand.*nicht/i.test(raw);
+  const universalPremium = /premium.*(?:alles|immer)|(?:alles|immer).*(?:premium|gedeckt|versichert)/i.test(raw);
+  const otherInsurer = /ander(?:en|er|em) versicherer/i.test(raw);
+  const candidates = questionProducts(raw);
+  if (!candidates.length) {
+    const correction = universalPremium ? '<div class="answer-warning">! Die Annahme „Premium deckt alles“ ist falsch. Auch premium enthält Voraussetzungen, Limits und Ausschlüsse.</div>' : unsafeRequest ? '<div class="answer-warning">! Quellen und Ausschlüsse werden nicht ausgeblendet.</div>' : unknownVersion ? '<div class="answer-warning">! Ohne bekannten Bedingungsstand ist keine verbindliche Aussage möglich.</div>' : otherInsurer ? '<div class="answer-warning">! Leistungen anderer Versicherer lassen keinen Schluss auf den R+V-Schutz zu.</div>' : '';
+    panel.innerHTML = `<div class="answer-head"><span>?</span><div><strong>Produkt und Risiko fehlen</strong><p>Bitte Produkt, Tarif und konkretes Leistungsmerkmal nennen. Ohne diese Angaben ist keine belastbare Einordnung möglich.</p></div></div>${correction}`;
+    return;
+  }
+  const product = candidates[0].product, matrix = COVERAGE[product.id], rows = questionRows(product, raw);
+  const warnings = [];
+  if (unsafeRequest) warnings.push('Ausschlüsse und Quellen werden nicht ausgeblendet. Eine einseitig positive Antwort wäre fachlich unbrauchbar.');
+  if (unknownVersion) warnings.push('Ohne bekannten Bedingungsstand ist keine verbindliche Aussage möglich. Edition 15 prüft ausschließlich aktuelles Neugeschäft.');
+  if (universalPremium) warnings.push('Die Annahme „Premium deckt alles“ ist falsch. Auch premium enthält Definitionen, Voraussetzungen, Limits und Ausschlüsse.');
+  if (otherInsurer) warnings.push('Leistungen eines anderen Versicherers beweisen keinen Einschluss bei R+V. Maßgeblich sind ausschließlich die passenden R+V-Unterlagen.');
+  const variant = matrix?.variants.find(name => norm(raw).includes(norm(name)));
+  if (matrix?.variants.length > 1 && !variant) warnings.push(`Tarifstufe fehlt. Bitte ${matrix.variants.join(', ')} auswählen.`);
+  const rowHtml = rows.length ? rows.map(row => {
+    const visible = variant ? [[variant,row.values[variant]]] : Object.entries(row.values).slice(0,3);
+    return `<article class="answer-fact ${row.audit?.level==='unverified'?'unverified':''}"><div><strong>${esc(row.feature)}</strong>${answerSourceBadge(row)}</div>${visible.map(([name,value])=>`<p><b>${esc(name)}:</b> ${esc(statusLabel[value?.status]||statusLabel.unknown)}${value?.detail?` – ${esc(value.detail)}`:''}</p>`).join('')}<small>${esc(row.source?.document||'Quelle nicht hinterlegt')} · ${esc(row.source?.location||'Fundstelle fehlt')}</small></article>`;
+  }).join('') : '<div class="answer-empty">Zum genannten Detail gibt es keine ausreichend passende Aussage. Nicht in den vorliegenden Quellen verifizierbar.</div>';
+  const productChoices = candidates.length > 1 ? `<div class="answer-candidates"><small>Erkanntes Produkt – bei Bedarf wechseln:</small>${candidates.map(item=>`<button type="button" data-answer-product="${item.product.id}">${esc(item.product.name)}</button>`).join('')}</div>` : '';
+  panel.innerHTML = `<div class="answer-head"><span>◇</span><div><small>REGELBASIERTER PRÜFMODUS</small><strong>${esc(product.name)}</strong><p>Produktinformation, keine Deckungszusage. Vertrag, Bedingungsstand, Risiko und Schadenhergang bleiben zu prüfen.</p></div></div>${warnings.map(text=>`<div class="answer-warning">! ${esc(text)}</div>`).join('')}${productChoices}<div class="answer-facts">${rowHtml}</div><button type="button" class="answer-open" data-answer-product="${product.id}">Produktansicht mit Quellen öffnen ›</button>`;
+  $$('[data-answer-product]').forEach(button => { button.onclick = () => openDetail(button.dataset.answerProduct); });
+}
 function chip(label, count) { return `<button class="chip ${state.category === label ? 'active' : ''}" data-cat="${label}">${label}<span> · ${count}</span></button>`; }
 function renderFilters() {
   const categories = ['Alle', 'Komposit', 'Leben', 'Kranken'];
@@ -99,6 +155,7 @@ function render() {
   $('#resultCount').textContent = `${items.length}${items.length === state.limit ? '+' : ''} TREFFER`;
   $('#results').innerHTML = items.length ? items.map(card).join('') : '<div class="empty"><strong>Noch kein Treffer.</strong>Versuche einen Oberbegriff, ein Kürzel wie BU/PKV/PHV oder tippe nur den Anfang.</div>';
   $('#caseNavigatorBtn').classList.toggle('query-match', /fremd|rolle|eigentümer|eigentumer|beitragszahler|versicherungsnehmer|versicherte person|halter|bezugsberechtigt|schließfach|schliessfach|wertsache|ema|wald|grundstück|grundstuck|wallbox|photovoltaik|abschlussalter|wer versichert/i.test(state.query));
+  renderQuestionAnswer();
   $$('.card').forEach(item => { item.onclick = () => openDetail(item.dataset.id); });
 }
 function setCategory(category) {
@@ -136,11 +193,14 @@ function renderDetail(product) {
   const tariffs = product.tariffs?.length ? `<h3 class="section-title">Tarife / Varianten</h3><div class="tariff-grid">${product.tariffs.map(tariff => `<div class="tariff"><div class="evidence-row"><strong>${tariff.name}<span>${tariff.code || ''}</span></strong>${evidenceButton(product, `tariff:${norm(tariff.name)}`)}</div><p>${tariff.note || 'Siehe vereinbarte Bedingungen.'}</p></div>`).join('')}</div>` : '';
   const addons = product.addons?.length ? `<h3 class="section-title">Zusatzbausteine / Optionen</h3><div class="addon-list">${product.addons.map(addon => `<span class="addon"><span>${addon}</span>${evidenceButton(product, `addon:${norm(addon)}`)}</span>`).join('')}</div>` : '';
   const docs = product.docs?.length ? `<h3 class="section-title">Bedingungswerke</h3>${product.docs.map(doc => `<a class="source-button secondary" href="${doc.url}" target="_blank" rel="noopener"><span>${doc.label}</span><b>↗</b></a>`).join('')}` : '';
+  const relatedProducts = (product.related || []).map(id => PRODUCTS.find(item => item.id === id)).filter(Boolean);
+  const related = relatedProducts.length ? `<section class="related-section"><div class="related-title"><span>↳</span><div><h3>Einzelprodukte dieser Übersicht</h3><p>${relatedProducts.length} getrennte Produktansichten</p></div></div><div class="related-products">${relatedProducts.map(item => `<button type="button" data-related-product="${item.id}"><span><small>${esc(item.subcategory)}</small><strong>${esc(item.name)}</strong></span><b>›</b></button>`).join('')}</div></section>` : '';
   const roleCase = Object.entries(ROLE_PRODUCT_MAP).find(([, ids]) => ids.includes(product.id))?.[0];
   const roleInline = roleCase ? `<button type="button" class="role-inline" data-role-case="${roleCase}"><span>◎</span><span><strong>Vertragsrollen prüfen</strong><small>Versicherungsnehmer · ${ROLE_CASES[roleCase].interestLabel} · Beitragszahler</small></span><b>›</b></button>` : '';
   const caseTopic = Object.entries(CASE_TOPICS).find(([, item]) => item.products?.includes(product.id))?.[0];
   const caseInline = caseTopic ? `<button type="button" class="role-inline case-inline" data-case-topic-inline="${caseTopic}"><span>◇</span><span><strong>Konkreten Fall prüfen</strong><small>${CASE_TOPICS[caseTopic].label} · Ergebnis mit Rückfragen und Quellen</small></span><b>›</b></button>` : '';
-  $('#detailContent').innerHTML = `<div class="detail-hero"><p class="eyebrow">${product.category} · ${product.subcategory}</p><h2>${product.name}</h2><p>${product.summary}</p>${evidenceCount ? `<div class="evidence-summary"><span>${evidenceCount}</span><strong>Quellenbelege</strong><small>direkt offline lesbar</small></div>` : ''}</div>${caseInline}${roleInline}${eligibility}${facts}${tariffs}${addons}${renderMatrix(product)}${docs}<h3 class="section-title">R+V Quelle</h3><a class="source-button" href="${product.url}" target="_blank" rel="noopener"><span>Aktuelle Produktseite öffnen</span><b>↗</b></a><div class="notice">Schnellübersicht, Stand 10.08.2026. „Prüfen“ bedeutet: öffentlich nicht eindeutig dieser Tarifstufe zugeordnet. Maßgeblich sind konkreter Vertrag, Nachträge und vereinbarte Bedingungen.</div>`;
+  $('#detailContent').innerHTML = `<div class="detail-hero"><p class="eyebrow">${product.category} · ${product.subcategory}</p><h2>${product.name}</h2><p>${product.summary}</p>${evidenceCount ? `<div class="evidence-summary"><span>${evidenceCount}</span><strong>Quellenbelege</strong><small>direkt offline lesbar</small></div>` : ''}</div>${related}${caseInline}${roleInline}${eligibility}${facts}${tariffs}${addons}${renderMatrix(product)}${docs}<h3 class="section-title">R+V Quelle</h3><a class="source-button" href="${product.url}" target="_blank" rel="noopener"><span>Aktuelle Produktseite öffnen</span><b>↗</b></a><div class="notice">Schnellübersicht, Stand 10.08.2026. „Prüfen“ bedeutet: öffentlich nicht eindeutig dieser Tarifstufe zugeordnet. Maßgeblich sind konkreter Vertrag, Nachträge und vereinbarte Bedingungen.</div>`;
+  $$('[data-related-product]').forEach(button => { button.onclick = () => { $('#detailDialog').close(); openDetail(button.dataset.relatedProduct); }; });
   $('.case-inline')?.addEventListener('click', event => { $('#detailDialog').close(); openCaseNavigator(event.currentTarget.dataset.caseTopicInline); });
   $('.role-inline')?.addEventListener('click', event => { roleState.product = event.currentTarget.dataset.roleCase; $('#detailDialog').close(); openRoleChecker(); });
   bindDetail(product);
@@ -159,7 +219,8 @@ function openMatrixSource(product, rowId) {
   const row = COVERAGE[product.id]?.rows.find(item => item.id === rowId); if (!row?.source) return;
   const source = row.source;
   $('#evidenceTitle').textContent = row.feature;
-  $('#evidenceContent').innerHTML = `<article class="evidence-card"><div class="evidence-card-head"><span class="evidence-kind avb">${esc(source.kind)}</span><span class="evidence-check">GEPRÜFT ${COVERAGE_META.checked}</span></div><h3>${esc(source.document)}</h3><div class="evidence-meta"><strong>${esc(source.version)}</strong><span>${esc(source.location)}</span></div><p class="evidence-text">${esc(source.text)}</p><div class="matrix-source-values">${Object.entries(row.values).map(([variant, item]) => `<div><strong>${esc(variant)}</strong>${matrixCell(item)}</div>`).join('')}</div></article>`;
+  const audit = row.audit || sourceAudit(row), doc = product.docs?.[0];
+  $('#evidenceContent').innerHTML = `<article class="evidence-card"><div class="evidence-card-head"><span class="evidence-kind avb">${esc(source.kind)}</span><span class="source-quality quality-${audit.level}">${esc(audit.label)}</span></div><h3>${esc(source.document)}</h3><div class="evidence-meta"><strong>${esc(source.version)}</strong><span>${esc(source.location)}</span></div><p class="source-audit-note">${esc(audit.note)}</p><p class="evidence-text">${esc(source.text)}</p><div class="matrix-source-values">${Object.entries(row.values).map(([variant, item]) => `<div><strong>${esc(variant)}</strong>${matrixCell(item)}</div>`).join('')}</div>${doc?`<a class="source-button secondary" href="${doc.url}" target="_blank" rel="noopener">Originaldokument öffnen ↗</a>`:''}</article>`;
   $('#evidenceDialog').showModal();
 }
 function openEvidence(productId, anchor) {
@@ -215,8 +276,6 @@ function renderRoleChecker() {
 function openRoleChecker() { renderRoleChecker(); $('#roleDialog').showModal(); }
 function init() {
   renderFilters();
-  const evidenceTotal = Object.values(EVIDENCE).reduce((sum, items) => sum + items.length, 0), coverageTotal = Object.values(COVERAGE).reduce((sum, matrix) => sum + matrix.rows.length, 0);
-  $('#stats').innerHTML = `<div class="stat"><strong>${PRODUCTS.length}</strong><span>Produktwege</span></div><div class="stat"><strong>${coverageTotal}</strong><span>Leistungsangaben</span></div><div class="stat"><strong>${evidenceTotal}</strong><span>Quellenbelege</span></div>`;
   $('#searchInput').addEventListener('input', event => { state.query = event.target.value; state.limit = 30; $('#clearBtn').style.display = state.query ? 'block' : 'none'; render(); });
   $('#clearBtn').onclick = () => { $('#searchInput').value = ''; state.query = ''; $('#clearBtn').style.display = 'none'; render(); $('#searchInput').focus(); };
   $$('.search-hints button').forEach(button => { button.onclick = () => { $('#searchInput').value = button.dataset.query; state.query = button.dataset.query; render(); }; });

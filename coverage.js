@@ -1,8 +1,77 @@
-/* RuVKompendium 13 – Leistungsdatenbank, öffentliche R+V-Quellen geprüft 10.08.2026. */
+/* RuVKompendium 15 – Leistungsdatenbank, öffentliche R+V-Quellen geprüft 10.08.2026. */
 const COVERAGE_META={
   "checked": "10.08.2026",
-  "products": 81,
+  "products": 83,
   "officialMatrices": 4
+};
+
+const generationMatrixSource = (profile, location, text) => ({
+  kind: 'Bedingungswerk / R+V-Produktinformation',
+  document: profile.document,
+  version: profile.version,
+  location,
+  text
+});
+const generationMatrixRow = (profile, suffix, group, feature, status, detail, location) => ({
+  id: `${profile.id}-${suffix}`,
+  group,
+  feature,
+  values: { Produkt: { status, detail } },
+  source: generationMatrixSource(profile, location, detail)
+});
+const generationMatrix = profile => ({
+  variants: ['Produkt'],
+  level: 'Eigenständiges Generationenprodukt · aktuell getrennt ausgewiesen',
+  rows: [
+    generationMatrixRow(profile,'type','Produktlogik','Vertragstyp','info',profile.type,profile.typeLocation),
+    generationMatrixRow(profile,'timing','Produktlogik','Zeitpunkt der Übertragung','yes',profile.timing,profile.timingLocation),
+    generationMatrixRow(profile,'death','Leistungen','Tod der versicherten Person',profile.deathStatus,profile.death,profile.deathLocation),
+    generationMatrixRow(profile,'investment','Kapitalanlage','Anlageform',profile.investmentStatus,profile.investment,profile.investmentLocation),
+    generationMatrixRow(profile,'health','Abschluss & Grenzen','Gesundheitsfragen','limited','Keine Gesundheitsfragen bis 1 Mio. EUR Einmalbeitrag laut aktueller R+V-Produktseite; oberhalb dieser Grenze Annahme klären.','R+V-Produktseite · Vermögensübertragung im Detail'),
+    generationMatrixRow(profile,'withdrawal','Flexibilität','Kapitalentnahme','limited',profile.withdrawal,profile.withdrawalLocation),
+    generationMatrixRow(profile,'topup','Flexibilität','Zuzahlungen','limited','Zuzahlungen sind möglich; öffentlich werden bis 20.000 EUR pro Jahr ohne erneute Risikoprüfung beschrieben. Vertragsgrenzen und Kosten prüfen.','R+V-Produktkonfigurator · Zuzahlungen'),
+    generationMatrixRow(profile,'change','Flexibilität','Anlageänderung / Management',profile.changeStatus,profile.change,profile.changeLocation),
+    generationMatrixRow(profile,'tax','Steuerliche Hinweise','Besteuerung','info','Erträge sammeln sich während der Vertragslaufzeit ohne laufende Einkommensteuer im Vertrag an. Todesfallleistungen sind einkommensteuerfrei; Erbschaft- oder Schenkungsteuer hängt insbesondere von Erwerbsart und Freibeträgen ab. Individuelle Steuerberatung bleibt erforderlich.','R+V-Produktseite · Steuervorteile / Steuerinformationen des Bedingungshefts')
+  ]
+});
+
+const GENERATION_COVERAGE = {
+  'generationenplan-safe': generationMatrix({
+    id:'generationenplan-safe', document:'R+V-GenerationenPlan Safe+Smart', version:'7F03 · PLG 04/26 · Stand 01.04.2026',
+    type:'Lebenslange Risikoversicherung gegen Einmalbeitrag.', typeLocation:'7F03 · § 6',
+    timing:'Auszahlung sofort im Todesfall der versicherten Person.', timingLocation:'7F03 · § 6',
+    death:'102 % des Gesamtkapitals werden an die Begünstigten ausgezahlt; der Vertrag endet.', deathStatus:'yes', deathLocation:'7F03 · § 6',
+    investment:'Safe+Smart: mindestens die Hälfte im sicheren Kapital; restliche Aufteilung zwischen sicherem Kapital und Chancen-Kapital im Vertragsrahmen änderbar.', investmentStatus:'limited', investmentLocation:'7F03 · §§ 1 und 4',
+    withdrawal:'Kapitalentnahme ab 1.000 EUR; Mindestrestkapital und weitere Voraussetzungen nach 7F03 beachten.', withdrawalLocation:'7F03 · § 7',
+    change:'Aufteilung des Gesamtkapitals kann im vertraglichen Rahmen kostenlos geändert werden.', changeStatus:'yes', changeLocation:'7F03 · § 4'
+  }),
+  'generationenplan-invest': generationMatrix({
+    id:'generationenplan-invest', document:'R+V-GenerationenPlan Invest-Plus', version:'XL07 · PLL 07/25 · Stand 01.07.2025; Fondsliste 06/2026',
+    type:'Lebenslange fondsgebundene Risikoversicherung gegen Einmalbeitrag.', typeLocation:'XL07 · § 1',
+    timing:'Auszahlung sofort im Todesfall der versicherten Person.', timingLocation:'XL07 · § 1',
+    death:'102 % des Policenwerts werden an die Berechtigten ausgezahlt; der Vertrag endet.', deathStatus:'yes', deathLocation:'XL07 · § 1',
+    investment:'Unmittelbare Beteiligung an Fonds beziehungsweise Sondervermögen. Kurs-, Schwankungs- und Verlustrisiken bis hin zum Totalverlust sind möglich.', investmentStatus:'check', investmentLocation:'XL07 · § 2',
+    withdrawal:'Kündigung und Kapitalentnahme sind nach den Fristen und Voraussetzungen des XL07 möglich.', withdrawalLocation:'XL07 · § 9',
+    change:'Fondswechsel ist möglich; optionales Startmanagement investiert zunächst in einen Startfonds und schichtet schrittweise um.', changeStatus:'optional', changeLocation:'XL07 · §§ 2 und 10'
+  }),
+  'generationenkonzept-safe': generationMatrix({
+    id:'generationenkonzept-safe', document:'R+V-GenerationenKonzept Safe+Smart', version:'8F03 · PLG 04/26 · Stand 01.04.2026',
+    type:'Kapitalversicherung gegen Einmalbeitrag mit festem Ablauftermin.', typeLocation:'8F03 · § 6',
+    timing:'Auszahlung des vorhandenen Gesamtkapitals am vereinbarten Termin.', timingLocation:'8F03 · § 6',
+    death:'Bei Tod vor Ablauf wird das Gesamtkapital um 2 % erhöht; der Vertrag bleibt bis zum vereinbarten Termin bestehen.', deathStatus:'limited', deathLocation:'8F03 · § 6',
+    investment:'Safe+Smart: mindestens die Hälfte im sicheren Kapital; restliche Aufteilung zwischen sicherem Kapital und Chancen-Kapital im Vertragsrahmen änderbar.', investmentStatus:'limited', investmentLocation:'8F03 · §§ 1 und 4',
+    withdrawal:'Teilauszahlungen sind möglich; Entnahmebetrag, verbleibendes Gesamtkapital, Fristen und Kosten nach 8F03 prüfen.', withdrawalLocation:'8F03 · § 7',
+    change:'Aufteilung des Gesamtkapitals kann im vertraglichen Rahmen kostenlos geändert werden.', changeStatus:'yes', changeLocation:'8F03 · § 4'
+  }),
+  'generationenkonzept-invest': generationMatrix({
+    id:'generationenkonzept-invest', document:'R+V-GenerationenKonzept-Plus / GenerationenKonzept Invest-Plus', version:'XZ08 · PLL 07/25 · Stand 01.07.2025; Fondsliste 06/2026',
+    type:'Fondsgebundene TermFix-Kapitalversicherung gegen Einmalbeitrag.', typeLocation:'XZ08 · § 1',
+    timing:'Auszahlung des Policenwerts am vereinbarten festen TermFix.', timingLocation:'XZ08 · § 1',
+    death:'Bei Tod vor Ablauf werden 2 % des Policenwerts als Risikosumme zugeführt; der Vertrag bleibt bis zum Termin bestehen.', deathStatus:'limited', deathLocation:'XZ08 · § 1',
+    investment:'Unmittelbare Beteiligung an Fonds beziehungsweise Sondervermögen. Kurs-, Schwankungs- und Verlustrisiken bis hin zum Totalverlust sind möglich.', investmentStatus:'check', investmentLocation:'XZ08 · § 2',
+    withdrawal:'Kapitalentnahme mindestens 1.000 EUR; danach müssen mindestens 2.500 EUR Policenwert verbleiben.', withdrawalLocation:'XZ08 · § 10',
+    change:'Fondswechsel ist möglich; der Ablauftermin kann einmalig um ganze Monate, höchstens um fünf Jahre, hinausgeschoben werden.', changeStatus:'optional', changeLocation:'XZ08 · §§ 3 und 11'
+  })
 };
 const COVERAGE={
   "kfz-auto": {
@@ -20,7 +89,7 @@ const COVERAGE={
         "values": {
           "classic": {
             "status": "limited",
-            "detail": "KH: 100 Mio. EUR pauschal; Personenschäden 12 Mio. EUR. TK-Neupreis bis 12 Monate."
+            "detail": "KH: 100 Mio. EUR pauschal; Personenschäden 12 Mio. EUR. Keine Neupreisentschädigung nach A.2.6.1 b."
           },
           "comfort": {
             "status": "no",
@@ -36,7 +105,7 @@ const COVERAGE={
           "document": "Kfz-Verbraucherinformation Pkw – Stand 01.07.2026",
           "version": "öffentlich geprüft 10.08.2026",
           "location": "produktbezogene Regelung; genaue Ziffer im Dokument prüfen",
-          "text": "KH: 100 Mio. EUR pauschal; Personenschäden 12 Mio. EUR. TK-Neupreis bis 12 Monate."
+          "text": "KH: 100 Mio. EUR pauschal; Personenschäden 12 Mio. EUR. Keine Neupreisentschädigung nach A.2.6.1 b."
         }
       },
       {
@@ -120,53 +189,27 @@ const COVERAGE={
       {
         "id": "kfz-auto-feature-2",
         "group": "Leistungsbild",
-        "feature": "Neupreisentschädigung laut Produktseite je Variante bis zu 30 Monate.",
+        "feature": "Neupreisentschädigung bei Totalschaden, Zerstörung oder Verlust",
         "values": {
           "classic": {
-            "status": "info",
-            "detail": "Neupreisentschädigung laut Produktseite je Variante bis zu 30 Monate."
+            "status": "no",
+            "detail": "Nicht in A.2.6.1 b vorgesehen"
           },
           "comfort": {
-            "status": "info",
-            "detail": "Neupreisentschädigung laut Produktseite je Variante bis zu 30 Monate."
+            "status": "limited",
+            "detail": "innerhalb von 12 Monaten nach Erstzulassung; weitere Voraussetzungen beachten"
           },
           "premium": {
-            "status": "info",
-            "detail": "Neupreisentschädigung laut Produktseite je Variante bis zu 30 Monate."
+            "status": "limited",
+            "detail": "innerhalb von 30 Monaten nach Erstzulassung; weitere Voraussetzungen beachten"
           }
         },
         "source": {
-          "kind": "Bedingungswerk / Produktinformation",
-          "document": "Kfz-Verbraucherinformation Pkw – Stand 01.07.2026",
-          "version": "öffentlich geprüft 10.08.2026",
-          "location": "produktbezogene Regelung; genaue Ziffer im Dokument prüfen",
-          "text": "Neupreisentschädigung laut Produktseite je Variante bis zu 30 Monate."
-        }
-      },
-      {
-        "id": "kfz-auto-feature-3",
-        "group": "Leistungsbild",
-        "feature": "Fahrerschutz: 32,90 EUR/Jahr; Schutzbrief: 19,90 EUR/Jahr (Produktseite, Stand 08.08.2026).",
-        "values": {
-          "classic": {
-            "status": "info",
-            "detail": "Fahrerschutz: 32,90 EUR/Jahr; Schutzbrief: 19,90 EUR/Jahr (Produktseite, Stand 08.08.2026)."
-          },
-          "comfort": {
-            "status": "info",
-            "detail": "Fahrerschutz: 32,90 EUR/Jahr; Schutzbrief: 19,90 EUR/Jahr (Produktseite, Stand 08.08.2026)."
-          },
-          "premium": {
-            "status": "info",
-            "detail": "Fahrerschutz: 32,90 EUR/Jahr; Schutzbrief: 19,90 EUR/Jahr (Produktseite, Stand 08.08.2026)."
-          }
-        },
-        "source": {
-          "kind": "Bedingungswerk / Produktinformation",
-          "document": "Kfz-Verbraucherinformation Pkw – Stand 01.07.2026",
-          "version": "öffentlich geprüft 10.08.2026",
-          "location": "produktbezogene Regelung; genaue Ziffer im Dokument prüfen",
-          "text": "Fahrerschutz: 32,90 EUR/Jahr; Schutzbrief: 19,90 EUR/Jahr (Produktseite, Stand 08.08.2026)."
+          "kind": "Bedingungswerk",
+          "document": "R+V Verbraucherinformation für Pkw",
+          "version": "AKB · Stand Juli 2026",
+          "location": "A.2.6.1 b · Seite 21",
+          "text": "Die Neupreisentschädigung ist ausschließlich für premium innerhalb von 30 Monaten und comfort innerhalb von 12 Monaten geregelt."
         }
       },
       {
@@ -498,32 +541,6 @@ const COVERAGE={
           "version": "öffentlich geprüft 10.08.2026",
           "location": "produktbezogene Regelung; genaue Ziffer im Dokument prüfen",
           "text": "Höchste Produktstufe mit erweiterten Entschädigungsregeln für E-Komponenten."
-        }
-      },
-      {
-        "id": "kfz-eauto-feature-1",
-        "group": "Leistungsbild",
-        "feature": "R+V nennt für Elektro- und Hybrid-Pkw 3 % Beitragsnachlass.",
-        "values": {
-          "classic": {
-            "status": "info",
-            "detail": "R+V nennt für Elektro- und Hybrid-Pkw 3 % Beitragsnachlass."
-          },
-          "comfort": {
-            "status": "info",
-            "detail": "R+V nennt für Elektro- und Hybrid-Pkw 3 % Beitragsnachlass."
-          },
-          "premium": {
-            "status": "info",
-            "detail": "R+V nennt für Elektro- und Hybrid-Pkw 3 % Beitragsnachlass."
-          }
-        },
-        "source": {
-          "kind": "Bedingungswerk / Produktinformation",
-          "document": "Kfz-Verbraucherinformation Pkw – Stand 01.07.2026",
-          "version": "öffentlich geprüft 10.08.2026",
-          "location": "produktbezogene Regelung; genaue Ziffer im Dokument prüfen",
-          "text": "R+V nennt für Elektro- und Hybrid-Pkw 3 % Beitragsnachlass."
         }
       },
       {
@@ -12179,24 +12196,6 @@ const COVERAGE={
     ],
     "level": "Öffentliches Bedingungs- und Produktprofil",
     "rows": [
-      {
-        "id": "bankschliessfach-feature-1",
-        "group": "Leistungsbild",
-        "feature": "Einstieg laut Produktseite ab 6,99 EUR brutto/Jahr bei 1.000 EUR Versicherungssumme; Sondertarife für Mitglieder/Mitarbeiter von Volks- und Raiffeisenbanken.",
-        "values": {
-          "Produkt": {
-            "status": "info",
-            "detail": "Einstieg laut Produktseite ab 6,99 EUR brutto/Jahr bei 1.000 EUR Versicherungssumme; Sondertarife für Mitglieder/Mitarbeiter von Volks- und Raiffeisenbanken."
-          }
-        },
-        "source": {
-          "kind": "Bedingungswerk / Produktinformation",
-          "document": "Bedingungen Bankschließfachversicherung",
-          "version": "öffentlich geprüft 10.08.2026",
-          "location": "produktbezogene Regelung; genaue Ziffer im Dokument prüfen",
-          "text": "Einstieg laut Produktseite ab 6,99 EUR brutto/Jahr bei 1.000 EUR Versicherungssumme; Sondertarife für Mitglieder/Mitarbeiter von Volks- und Raiffeisenbanken."
-        }
-      },
       {
         "id": "bankschliessfach-deep-1",
         "group": "Vertiefte Leistungen",
@@ -28161,3 +28160,5 @@ const COVERAGE={
     ]
   }
 };
+
+Object.assign(COVERAGE, GENERATION_COVERAGE);

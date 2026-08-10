@@ -1,6 +1,6 @@
 # Quellen- und Abgrenzungsnotiz
 
-Prüfstand: **10.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V BKK deren eigene Website.
+Prüfstand: **10.08.2026**. Primärquellen sind die jeweils aktuellen offiziellen R+V-Vertragsunterlagen für das Privatkunden-Neugeschäft.
 
 ## Zentrale offizielle Quellen
 
@@ -23,13 +23,12 @@ Prüfstand: **10.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V 
 - Operationskostenversicherung Hund/Pferd – jeweilige AVB der angebotenen Tierversicherungsprodukte
 - R+V Makler-Unterlage „Ärztliche Untersuchung – Summengrenzen“, Stand 06/2026
 - R+V Makler-Sellingsheet „BU-Versicherung für Schüler“, Stand 05/2026
-- R+V Beitragstabelle FernWeh / FernWeh Familie, Stand 01/2026
 
 Jeder Eintrag in der App enthält zusätzlich seine konkrete R+V-Produktseite sowie das zugeordnete Bedingungswerk oder – wo mehrere Sonderbedingungen greifen – die offizielle Bedingungszentrale.
 
-## Leistungsdatenbank und Evidence Layer – Edition 08
+## Leistungsdatenbank und Evidence Layer
 
-`coverage.js` enthält 1.103 einzelne Produkt-, Tarif-, Leistungs-, Options- und Abschlussangaben. Jede Matrixzeile trägt eine lokale Quellenunterlegung. Für die vier Produkte mit veröffentlichter R+V-Leistungsübersicht wurden die Tabellen vollständig nach Classic, Comfort und Premium strukturiert. Wo eine öffentliche Quelle keine eindeutige Tarifzuordnung zulässt, zeigt die App bewusst **„Prüfen“** statt einen Einschluss zu unterstellen.
+Edition 15 enthält 1.199 Produkt-, Tarif-, Leistungs-, Options-, Abschluss- und Rollenangaben für 83 Produkt- und Beratungswege. Für die vier Produkte mit veröffentlichter R+V-Leistungsübersicht wurden die Tabellen vollständig nach classic, comfort und premium strukturiert. Aussagen ohne genaue Fundstelle werden ausdrücklich als **„nicht verifiziert“** zurückgestuft; „Prüfen“ oder eine redaktionelle Vorinformation sind kein bestätigter Einschluss.
 
 ## Rollen-Checker – Edition 09
 
@@ -78,14 +77,24 @@ Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen 
 - KinderVorsorge IndexInvest: Mindestbeitrag/Zuzahlung, maximale Termfix-Laufzeit, Beitragsgarantie, SOMAS-Varianten und Liquiditätsoption
 - Sparen für Kinder: aktuelle R+V-Produktwege AnsparKombi, AnlageKombi, KinderVorsorge IndexInvest, InvestmentKonzept Duo Invest und R+V-VorsorgeKonzept
 
+## Produktgliederung – Edition 14
+
+Die bisherige Sammelansicht **Vermögensübertragung** ist in vier eigenständige Produktansichten aufgeteilt: GenerationenPlan Safe+Smart (7F03), GenerationenPlan Invest-Plus (XL07), GenerationenKonzept Safe+Smart (8F03) und GenerationenKonzept Invest-Plus beziehungsweise GenerationenKonzept-Plus (XZ08). Dafür wurden zusätzlich das Invest-Bedingungsheft der R+V-Lebensversicherung Niederlassung Luxemburg und die Fondspalette Stand 06/2026 ausgewertet.
+
+Auch weitere echte Übersichts- und Kombiseiten führen nun direkt zu ihren bereits vorhandenen Einzelprodukten: Hausrat & Haftpflicht Kombi, GeräteSchutz, Privat-Rechtsschutz, Kinderunfall, KinderRundumschutz und Sparen für Kinder. Reine Tarifstufen, Deckungsvarianten und Zusatzbausteine bleiben innerhalb des jeweiligen Produkts, damit die Produktliste fachlich sauber und übersichtlich bleibt.
+
 Die angezeigten Quellentexte sind bewusst **redaktionell verdichtete Bedingungsstellen** und keine vollständige Wiedergabe der Bedingungshefte. Kurze Originalfragmente dienen nur der schnellen Wiedererkennung der Fundstelle. Wo Höchstbeträge oder Selbstbehalte laut AVB erst durch Versicherungsschein/Nachtrag bestimmt werden, weist der Beleg darauf hin und erfindet keine pauschale Zahl.
+
+## Fachliche Freigabeschicht – Edition 15
+
+Die Quellenhierarchie wird sichtbar unterschieden: konkrete Bedingungsfundstelle, offizielle Leistungsübersicht, Produktinformation und nicht verifizierte redaktionelle Aussage. Widersprechen sich Marketing und Vertragsbedingungen, ist die konkrete Vertragsgrundlage maßgeblich. Der Fragenmodus korrigiert suggestive Annahmen, verlangt bei Mehrtarifprodukten die Tarifstufe und verweigert verbindliche Aussagen ohne bekannten Bedingungsstand. Der vollständige Prüfbericht liegt als `PRUEFBERICHT_EDITION15.md` bei.
+
+Der Scope umfasst ausschließlich aktuelles R+V-Privatkunden-Neugeschäft. Nicht enthalten sind Gewerbe, R+V BKK, Lebensarbeitszeitkonto sowie konkrete Beiträge und Rabatte. Ältere Vertragsgenerationen werden erst in einer späteren Edition getrennt modelliert.
 
 ## Redaktionelle Abgrenzung
 
 - Enthalten sind die auf der R+V-Privatkunden-Website angebotenen Versicherungs- und versicherungsnahen Absicherungswege; Varianten wie E-Auto, Wohnmobil oder Berufs-/Verkehrsrechtsschutz sind für schnelles Auffinden als eigene Beratungseinträge indexiert.
-- **R+V BKK** ist als GKV-/Partnerangebot gekennzeichnet und nicht als Produkt der R+V Krankenversicherung AG dargestellt.
 - **MietkautionsBürgschaft** ist als Bürgschaftslösung enthalten, aber bewusst nicht als klassische Schadenversicherung bezeichnet.
-- **Lebensarbeitszeitkonto** ist zur Vollständigkeit der aktuellen Privatkunden-Navigation als Wertguthaben-/Vorsorgelösung indexiert und ausdrücklich nicht als klassische Einzelversicherung gekennzeichnet.
 - **EnergiePolice** gehört zum gewerblichen Photovoltaik-Kontext; im Privatkundenbereich ist die Photovoltaikabsicherung als Wohngebäude-Baustein erfasst.
 - **Baufinanzierung/Darlehen**, Fahrzeugbewertung/-verkauf, Zulassungsservices und THG-Services sind keine Versicherungen und deshalb nicht als Versicherungsprodukte aufgenommen.
 - Auf der Navigation ausdrücklich als **„in Planung“** bezeichnete Angebote (z. B. Altersvorsorgedepot, Frühstart-Rente am Prüfdatum) werden nicht als aktuell abschließbare Versicherungsprodukte geführt.

@@ -1,13 +1,13 @@
-# RuVKompendium 13
+# RuVKompendium 15
 
 Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller Datenstand: **10.08.2026**.
 
 ## Enthalten
 
-- 81 Produkt- und Beratungswege in **Komposit**, **Leben** und **Kranken**
+- 83 Produkt- und Beratungswege in **Komposit**, **Leben** und **Kranken**; ausschließlich aktuelles Privatkunden-Neugeschäft
 - Tarif-/Variantenlogik einschließlich classic, comfort und premium, wo R+V diese Staffelung tatsächlich verwendet
 - Zusatzbausteine und Berater-Schnellchecks zu den zentralen Produkten
-- **Leistungsmatrix mit 1.176 Angaben** für alle 81 Produkt- und Beratungswege; darin 1.103 Produkt-/Leistungsangaben und 73 zusätzliche Rollenhinweise
+- **Leistungsmatrix mit 1.199 Angaben** für 83 Produkt- und Beratungswege; einschließlich 73 zusätzlicher Rollenhinweise
 - Vollständige öffentliche R+V-Leistungstabellen für Privathaftpflicht, Hausrat, Hundehalter- und Pferdehalterhaftpflicht mit zusammen 374 Einzelzeilen; die Hausrat-Haftpflicht-Kombi führt beide Tabellen zusammen
 - **Evidence Layer**: Quellen-Icons öffnen relevante, redaktionell verdichtete Bedingungsstellen direkt in der App – mit Dokument, Versionsstand und Fundstelle, ohne Web-Wechsel
 - Quellenbelege werden offline mit der PWA gespeichert und ebenfalls von der Live-Suche indexiert
@@ -23,9 +23,12 @@ Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller D
 - Edition 12: allgemeiner Fall-Navigator für neun häufige Konstellationen mit Klick-Auswahl, sofortiger Einordnung, offenen Fragen, nächsten Schritten, Produktwegen und offline lesbarer Quellenbasis
 - Werte-/Aufbewahrungslogik für Hausrat und Bankschließfach einschließlich Tarifgrenzen, Wohnfläche, häuslichem Bestand, Schließfachwert und bewusst gekennzeichneter EMA-/Wertsachen-Unklarheit
 - Edition 13: kontextabhängige Flächenabfrage im Immobilienfall – Wohnfläche für Wohngebäude, Grundstücksfläche ausschließlich für Wald und unbebaute Grundstücke
+- Edition 14: Vermögensübertragung in vier eigenständige Produkte aufgeteilt; allgemeine Kombi- und Beratungsansichten verlinken ihre konkreten Einzelprodukte direkt
+- Edition 15: fachliche Freigabeschicht mit Quellenqualität je Matrixaussage, regelbasierter Fragenmodus und konsequenter Kennzeichnung nicht verifizierter Angaben
+- R+V BKK, Lebensarbeitszeitkonto sowie konkrete Beiträge und Rabatte sind bewusst nicht Bestandteil dieser Edition
 - Semantische Ergebnisfarben: Blau für neutrale Angaben, Grün nur für bestätigte Passung, Orange für Warnungen/Grenzüberschreitungen und Rot für Stopps
 - Produktspezifische Suchbegriffe und Matrixhinweise zu Versicherung für fremde Rechnung, abweichendem Halter/Eigentümer, versicherter Person und Bezugsrecht
-- Aktuell 39 explizite Abschluss-/Grenzangaben und über 200 lokale Quellenbelege; kein Produktweg bleibt nur als unbefülltes Kurzprofil stehen
+- Aktuell 39 explizite Abschluss-/Grenzangaben und 245 lokale Quellenbelege; unbelegte Aussagen sind sichtbar als „nicht verifiziert“ gekennzeichnet
 - Keine externen Libraries, kein Build-Schritt
 
 ## GitHub Pages
