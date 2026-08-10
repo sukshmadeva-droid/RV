@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#f4f8fb">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="RuVKompendium 7">
+  <meta name="apple-mobile-web-app-title" content="RuVKompendium 9">
   <meta name="description" content="R+V Privatkunden-Kompendium für die schnelle Beratung.">
-  <title>RuVKompendium 7</title>
+  <title>RuVKompendium 9</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="./icon-180.png">
@@ -19,7 +19,7 @@
   <header class="topbar glass">
     <button class="brand" id="homeBtn" aria-label="Startseite">
       <span class="brand-mark"><img src="./icon-180.png" alt=""></span>
-      <span><strong>RuVKompendium</strong><small>PRIVATE · EDITION 07</small></span>
+      <span><strong><span>R+V</span> <em>Kompendium</em></strong><small>PRIVATE · EDITION 09</small></span>
     </button>
     <button class="icon-btn" id="infoBtn" aria-label="Informationen">i</button>
   </header>
@@ -27,13 +27,13 @@
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow"><span></span> R+V · PRIVATKUNDEN · STAND 08.08.2026</p>
+        <p class="eyebrow"><span></span> R+V · PRIVATKUNDEN · STAND 10.08.2026</p>
         <h1>R+V <em>Kompendium</em></h1>
         <p class="hero-subtitle">Produkte · Tarife · Leistungen · Quellen</p>
         <p class="lede">Das kompakte Privatkunden-Kompendium für den schnellen, belegten Zugriff im Beratungsgespräch.</p>
       </div>
       <div class="hero-status" aria-label="Status der Edition">
-        <span><b>07</b> Edition</span>
+        <span><b>09</b> Edition</span>
         <span><b>OFFLINE</b> bereit</span>
         <span><b>⌑</b> Quellenbelege</span>
       </div>
@@ -49,8 +49,9 @@
       <div class="search-hints">
         <button data-query="tarif:premium">tarif:premium</button>
         <button data-query="doc:avb">doc:avb</button>
-        <button data-query="baustein:naturgefahren">baustein:naturgefahren</button>
+        <button data-query="gewässerschaden">Gewässerschaden</button>
       </div>
+      <button type="button" class="role-launch" id="roleCheckerBtn"><span>◎</span><span><strong>Rollen-Checker</strong><small>Wer versichert wen – und wessen Eigentum?</small></span><b>Öffnen ›</b></button>
     </section>
 
     <section class="command-strip" id="stats"></section>
@@ -88,14 +89,23 @@
     </div>
   </dialog>
 
+  <dialog id="roleDialog" class="detail-dialog role-dialog">
+    <div class="detail-shell role-shell">
+      <div class="detail-grip"></div>
+      <button class="detail-close" id="roleClose" aria-label="Rollen-Checker schließen">×</button>
+      <div id="roleContent"></div>
+    </div>
+  </dialog>
+
   <dialog id="infoDialog" class="detail-dialog info-dialog">
     <div class="detail-shell">
       <div class="detail-grip"></div>
       <button class="detail-close" id="infoClose" aria-label="Schließen">×</button>
       <p class="eyebrow">ÜBER DIE EDITION</p>
-      <h2>RuVKompendium 7</h2>
-      <p>Redaktionelle Schnellübersicht für Versicherungsberater. Portfolio- und Leistungsdaten wurden am 08.08.2026 anhand der öffentlichen R+V-Privatkunden- und Bedingungsseiten geprüft.</p>
-      <p>Edition 07 ergänzt aktuelle R+V-Produkt- und Bedingungsrecherche um einen eigenen Bereich „Abschluss &amp; Grenzen“, deutlich tiefere Beratungsprofile und zusätzliche lokale Quellenbelege. Quellen-Icons öffnen die relevante Fundstelle direkt in der App.</p>
+      <h2>RuVKompendium 9</h2>
+      <p>Redaktionelle Schnellübersicht für Versicherungsberater. Portfolio-, Tarif- und Leistungsdaten wurden am 10.08.2026 anhand der öffentlichen R+V-Produktseiten, Leistungsübersichten und Bedingungswerke geprüft.</p>
+      <p>Edition 09 ergänzt den interaktiven Rollen-Checker. Er bewertet abweichende Konstellationen zwischen Versicherungsnehmer, Eigentümer/Halter beziehungsweise versicherter Person, Beitragszahler und Bezugsberechtigtem für alle wesentlichen Privatsparten.</p>
+      <div class="notice">„Prüfen“ ist eine bewusste Qualitätskennzeichnung: Die öffentliche Quelle ordnet eine Aussage nicht eindeutig einer Tarifstufe zu. Es wird keine Leistung unterstellt.</div>
       <div class="notice">Im Beratungs- und Leistungsfall gelten ausschließlich Versicherungsschein, Nachträge und die jeweils vereinbarten Versicherungsbedingungen. Preise, Aktionen und Annahmeregeln können sich ändern.</div>
       <a class="source-button" href="https://www.ruv.de/service/weitere-services/versicherungsbedingungen" target="_blank" rel="noopener">R+V Bedingungszentrale ↗</a>
     </div>
@@ -103,6 +113,8 @@
 
   <script src="./evidence.js"></script>
   <script src="./data.js"></script>
+  <script src="./coverage.js"></script>
+  <script src="./roles.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>

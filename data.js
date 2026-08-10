@@ -1,4 +1,4 @@
-/* Datenbasis: öffentliche R+V-Webseiten und Bedingungszentrale, geprüft 08.08.2026. */
+/* Datenbasis: öffentliche R+V-Webseiten, Leistungsübersichten und Bedingungszentrale, geprüft 10.08.2026. */
 const DOCS={
   avb:'https://www.ruv.de/service/weitere-services/versicherungsbedingungen',
   classic:'https://www.ruv.de/dam/jcr%3A41df7b64-f3f4-48be-9230-0a74d7760284/ruv-kpr_privatkunden_verbraucherinfo.PDF',

@@ -1,6 +1,6 @@
 # Quellen- und Abgrenzungsnotiz
 
-Prüfstand: **08.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V BKK deren eigene Website.
+Prüfstand: **10.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V BKK deren eigene Website.
 
 ## Zentrale offizielle Quellen
 
@@ -9,6 +9,10 @@ Prüfstand: **08.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V 
 - R+V PrivatPolice Verbraucherinformation **classic**, Ausgabe 07/2026
 - R+V PrivatPolice Verbraucherinformation **comfort**, Ausgabe 07/2026
 - R+V PrivatPolice Verbraucherinformation **premium**, Ausgabe 07/2026
+- R+V Privathaftpflicht – vollständige Leistungsübersicht, Stand 07/2026, IdNr. 324180
+- R+V Hausrat – vollständige Leistungsübersicht, Stand 07/2026, IdNr. 324181
+- R+V Hundehalterhaftpflicht – vollständige Leistungsübersicht, Stand 07/2026, IdNr. 322552
+- R+V Pferdehalterhaftpflicht – vollständige Leistungsübersicht, Stand 07/2026, IdNr. 322551
 - R+V Kfz Verbraucherinformation Pkw, Stand 01.07.2026
 - R+V Kfz Verbraucherinformation Nicht-Pkw, Stand 01.07.2026
 - Bedingungsheft R+V Lebensversicherung AG, PLG 04/26
@@ -23,7 +27,13 @@ Prüfstand: **08.08.2026**. Primärquelle ist durchgängig R+V bzw. bei der R+V 
 
 Jeder Eintrag in der App enthält zusätzlich seine konkrete R+V-Produktseite sowie das zugeordnete Bedingungswerk oder – wo mehrere Sonderbedingungen greifen – die offizielle Bedingungszentrale.
 
-## Evidence Layer – Edition 07
+## Leistungsdatenbank und Evidence Layer – Edition 08
+
+`coverage.js` enthält 1.103 einzelne Produkt-, Tarif-, Leistungs-, Options- und Abschlussangaben. Jede Matrixzeile trägt eine lokale Quellenunterlegung. Für die vier Produkte mit veröffentlichter R+V-Leistungsübersicht wurden die Tabellen vollständig nach Classic, Comfort und Premium strukturiert. Wo eine öffentliche Quelle keine eindeutige Tarifzuordnung zulässt, zeigt die App bewusst **„Prüfen“** statt einen Einschluss zu unterstellen.
+
+## Rollen-Checker – Edition 09
+
+Der Rollen-Checker in `roles.js` unterscheidet Versicherungsnehmer, Eigentümer/Halter beziehungsweise versicherte Person, Beitragszahler und – soweit relevant – Bezugsberechtigte. 73 produktspezifische Rollenhinweise ergänzen die Leistungsdatenbank. Grundlage sind insbesondere §§ 43–47, 89, 150, 179, 193 und 207 VVG sowie die jeweils zugeordneten R+V-Bedingungen. Ein abweichender Beitragszahler wird ausdrücklich nicht mit einer versicherten oder leistungsberechtigten Person gleichgesetzt.
 
 Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen offiziellen R+V-Unterlagen separat ausgewertet. Diese Belege stehen in `evidence.js` und werden über das kleine Quellen-Icon direkt in der App angezeigt. Enthalten sind insbesondere Tarifabgrenzungen und zentrale Leistungsmerkmale aus:
 
