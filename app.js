@@ -1,9 +1,9 @@
-/* RuVKompendium 15 – offline-first, dependency-free, GitHub Pages friendly */
+/* RuVKompendium 16 – offline-first, dependency-free, GitHub Pages friendly */
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const state = { category: 'Alle', query: '', limit: 18, detailProduct: null, matrixQuery: '', matrixVariant: 'Alle' };
 const roleState = { product: 'building', interest: 'other', payer: 'self', consent: 'yes', relation: 'family', beneficiary: 'insured' };
-const caseState = { topic: 'values', selections: Object.fromEntries(Object.entries(CASE_DEFAULTS).map(([key, value]) => [key, { ...value }])) };
+const caseState = { topic: 'values', productId: null, selections: Object.fromEntries(Object.entries(CASE_DEFAULTS).map(([key, value]) => [key, { ...value }])) };
 const norm = value => (value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ß/g, 'ss').replace(/[+&/–—-]/g, ' ').replace(/[^a-z0-9äöü ]/g, ' ').replace(/\s+/g, ' ').trim();
 const esc = value => String(value ?? '').replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
 const synonyms = {
@@ -125,7 +125,7 @@ function renderQuestionAnswer() {
   const product = candidates[0].product, matrix = COVERAGE[product.id], rows = questionRows(product, raw);
   const warnings = [];
   if (unsafeRequest) warnings.push('Ausschlüsse und Quellen werden nicht ausgeblendet. Eine einseitig positive Antwort wäre fachlich unbrauchbar.');
-  if (unknownVersion) warnings.push('Ohne bekannten Bedingungsstand ist keine verbindliche Aussage möglich. Edition 15 prüft ausschließlich aktuelles Neugeschäft.');
+  if (unknownVersion) warnings.push('Ohne bekannten Bedingungsstand ist keine verbindliche Aussage möglich. Edition 16 prüft ausschließlich aktuelles Neugeschäft.');
   if (universalPremium) warnings.push('Die Annahme „Premium deckt alles“ ist falsch. Auch premium enthält Definitionen, Voraussetzungen, Limits und Ausschlüsse.');
   if (otherInsurer) warnings.push('Leistungen eines anderen Versicherers beweisen keinen Einschluss bei R+V. Maßgeblich sind ausschließlich die passenden R+V-Unterlagen.');
   const variant = matrix?.variants.find(name => norm(raw).includes(norm(name)));
@@ -201,8 +201,8 @@ function renderDetail(product) {
   const caseInline = caseTopic ? `<button type="button" class="role-inline case-inline" data-case-topic-inline="${caseTopic}"><span>◇</span><span><strong>Konkreten Fall prüfen</strong><small>${CASE_TOPICS[caseTopic].label} · Ergebnis mit Rückfragen und Quellen</small></span><b>›</b></button>` : '';
   $('#detailContent').innerHTML = `<div class="detail-hero"><p class="eyebrow">${product.category} · ${product.subcategory}</p><h2>${product.name}</h2><p>${product.summary}</p>${evidenceCount ? `<div class="evidence-summary"><span>${evidenceCount}</span><strong>Quellenbelege</strong><small>direkt offline lesbar</small></div>` : ''}</div>${related}${caseInline}${roleInline}${eligibility}${facts}${tariffs}${addons}${renderMatrix(product)}${docs}<h3 class="section-title">R+V Quelle</h3><a class="source-button" href="${product.url}" target="_blank" rel="noopener"><span>Aktuelle Produktseite öffnen</span><b>↗</b></a><div class="notice">Schnellübersicht, Stand 10.08.2026. „Prüfen“ bedeutet: öffentlich nicht eindeutig dieser Tarifstufe zugeordnet. Maßgeblich sind konkreter Vertrag, Nachträge und vereinbarte Bedingungen.</div>`;
   $$('[data-related-product]').forEach(button => { button.onclick = () => { $('#detailDialog').close(); openDetail(button.dataset.relatedProduct); }; });
-  $('.case-inline')?.addEventListener('click', event => { $('#detailDialog').close(); openCaseNavigator(event.currentTarget.dataset.caseTopicInline); });
-  $('.role-inline')?.addEventListener('click', event => { roleState.product = event.currentTarget.dataset.roleCase; $('#detailDialog').close(); openRoleChecker(); });
+  $('[data-case-topic-inline]')?.addEventListener('click', event => { $('#detailDialog').close(); openCaseNavigator(event.currentTarget.dataset.caseTopicInline, product.id); });
+  $('[data-role-case]')?.addEventListener('click', event => { roleState.product = event.currentTarget.dataset.roleCase; $('#detailDialog').close(); openRoleChecker(); });
   bindDetail(product);
 }
 function bindDetail(product) {
@@ -253,16 +253,20 @@ function renderCaseResult() {
 }
 function renderCaseNavigator() {
   const topic=CASE_TOPICS[caseState.topic], selection=caseState.selections[caseState.topic]||{};
-  const topics=Object.entries(CASE_TOPICS).map(([id,item])=>`<button type="button" class="case-topic ${id===caseState.topic?'active':''}" data-case-topic="${id}"><span>${item.icon}</span><strong>${esc(item.label)}</strong><small>${esc(item.subtitle)}</small></button>`).join('');
+  const product=PRODUCTS.find(item=>item.id===caseState.productId);
+  const topics=product?'':`<div class="case-topics">${Object.entries(CASE_TOPICS).map(([id,item])=>`<button type="button" class="case-topic ${id===caseState.topic?'active':''}" data-case-topic="${id}"><span>${item.icon}</span><strong>${esc(item.label)}</strong><small>${esc(item.subtitle)}</small></button>`).join('')}</div>`;
+  const head=product
+    ? `<div class="case-head product-context"><p class="eyebrow">KONKRETER FALL</p><h2>${esc(product.name)}</h2><p>Angaben auswählen – Einordnung, Rückfragen und Quellen erscheinen sofort.</p></div>`
+    : `<div class="case-head"><p class="eyebrow">INTELLIGENTER FALL-NAVIGATOR</p><h2>Konstellation statt Stichwort</h2><p>Thema auswählen, Angaben anklicken – Antwort, Rückfragen und Quellen erscheinen sofort.</p></div>`;
   const delegate=topic.delegate==='roles'?`<section class="case-delegate"><span>◎</span><div><strong>Vertragsrollen im Detail prüfen</strong><p>Eigentümer, Halter, versicherte Person, Beitragszahler und Bezugsrecht auswählen.</p></div><button type="button" id="caseOpenRoles">Öffnen ›</button></section>`:'';
-  $('#caseContent').innerHTML=`<div class="case-head"><p class="eyebrow">INTELLIGENTER FALL-NAVIGATOR</p><h2>Konstellation statt Stichwort</h2><p>Thema auswählen, Angaben anklicken – Antwort, Rückfragen und Quellen erscheinen sofort.</p></div><div class="case-topics">${topics}</div><div class="case-work"><div class="case-work-title"><span>${topic.icon}</span><div><strong>${esc(topic.label)}</strong><small>${esc(topic.subtitle)}</small></div></div>${topic.fields.filter(field=>caseFieldVisible(field,selection)).map(field=>caseField(field,selection)).join('')}${delegate}<div id="caseResult"></div></div><div class="notice">Der Navigator kombiniert öffentlich belegte Regeln. „Klären“ bedeutet bewusst: Ohne Annahmerichtlinie, konkrete Vertragsdaten oder schriftliche R+V-Bestätigung ist keine belastbare Zusage möglich.</div>`;
+  $('#caseContent').innerHTML=`${head}${topics}<div class="case-work"><div class="case-work-title"><span>${topic.icon}</span><div><strong>${esc(topic.label)}</strong><small>${esc(topic.subtitle)}</small></div></div>${topic.fields.filter(field=>caseFieldVisible(field,selection)).map(field=>caseField(field,selection)).join('')}${delegate}<div id="caseResult"></div></div><div class="notice">Der Navigator kombiniert öffentlich belegte Regeln. „Klären“ bedeutet bewusst: Ohne Annahmerichtlinie, konkrete Vertragsdaten oder schriftliche R+V-Bestätigung ist keine belastbare Zusage möglich.</div>`;
   $$('[data-case-topic]').forEach(button=>{button.onclick=()=>{caseState.topic=button.dataset.caseTopic;renderCaseNavigator();};});
   $$('[data-case-field]').forEach(button=>{button.onclick=()=>{caseState.selections[caseState.topic][button.dataset.caseField]=button.dataset.caseValue;renderCaseNavigator();};});
   $$('[data-case-number]').forEach(input=>{input.oninput=()=>{caseState.selections[caseState.topic][input.dataset.caseNumber]=Number(input.value)||0;renderCaseResult();};});
   $('#caseOpenRoles')?.addEventListener('click',()=>{$('#caseDialog').close();openRoleChecker();});
   renderCaseResult();
 }
-function openCaseNavigator(topic) { if(topic&&CASE_TOPICS[topic])caseState.topic=topic;renderCaseNavigator();$('#caseDialog').showModal(); }
+function openCaseNavigator(topic, productId=null) { if(topic&&CASE_TOPICS[topic])caseState.topic=topic;caseState.productId=productId&&PRODUCTS.some(item=>item.id===productId)?productId:null;renderCaseNavigator();$('#caseDialog').showModal(); }
 function roleChoice(field, value, label, active) {
   return `<button type="button" class="role-choice ${active ? 'active' : ''}" data-role-field="${field}" data-role-value="${value}">${label}</button>`;
 }
@@ -291,6 +295,6 @@ function init() {
   $('#infoBtn').onclick = () => $('#infoDialog').showModal(); $('#infoClose').onclick = () => $('#infoDialog').close();
   $('#caseNavigatorBtn').onclick = () => openCaseNavigator(); $('#caseClose').onclick = () => $('#caseDialog').close(); $('#caseDialog').onclick = event => { if (event.target === $('#caseDialog')) $('#caseDialog').close(); };
   $('#roleClose').onclick = () => $('#roleDialog').close(); $('#roleDialog').onclick = event => { if (event.target === $('#roleDialog')) $('#roleDialog').close(); };
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {}); render();
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(registration => registration.update()).catch(() => {}); render();
 }
 init();

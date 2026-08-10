@@ -28,7 +28,7 @@ Jeder Eintrag in der App enthält zusätzlich seine konkrete R+V-Produktseite so
 
 ## Leistungsdatenbank und Evidence Layer
 
-Edition 15 enthält 1.199 Produkt-, Tarif-, Leistungs-, Options-, Abschluss- und Rollenangaben für 83 Produkt- und Beratungswege. Für die vier Produkte mit veröffentlichter R+V-Leistungsübersicht wurden die Tabellen vollständig nach classic, comfort und premium strukturiert. Aussagen ohne genaue Fundstelle werden ausdrücklich als **„nicht verifiziert“** zurückgestuft; „Prüfen“ oder eine redaktionelle Vorinformation sind kein bestätigter Einschluss.
+Edition 16 enthält 1.199 Produkt-, Tarif-, Leistungs-, Options-, Abschluss- und Rollenangaben für 83 Produkt- und Beratungswege. Für die vier Produkte mit veröffentlichter R+V-Leistungsübersicht wurden die Tabellen vollständig nach classic, comfort und premium strukturiert. Aussagen ohne genaue Fundstelle werden ausdrücklich als **„nicht verifiziert“** zurückgestuft; „Prüfen“ oder eine redaktionelle Vorinformation sind kein bestätigter Einschluss.
 
 ## Rollen-Checker – Edition 09
 
@@ -85,7 +85,7 @@ Auch weitere echte Übersichts- und Kombiseiten führen nun direkt zu ihren bere
 
 Die angezeigten Quellentexte sind bewusst **redaktionell verdichtete Bedingungsstellen** und keine vollständige Wiedergabe der Bedingungshefte. Kurze Originalfragmente dienen nur der schnellen Wiedererkennung der Fundstelle. Wo Höchstbeträge oder Selbstbehalte laut AVB erst durch Versicherungsschein/Nachtrag bestimmt werden, weist der Beleg darauf hin und erfindet keine pauschale Zahl.
 
-## Fachliche Freigabeschicht – Edition 15
+## Fachliche Freigabeschicht – Edition 16
 
 Die Quellenhierarchie wird sichtbar unterschieden: konkrete Bedingungsfundstelle, offizielle Leistungsübersicht, Produktinformation und nicht verifizierte redaktionelle Aussage. Widersprechen sich Marketing und Vertragsbedingungen, ist die konkrete Vertragsgrundlage maßgeblich. Der Fragenmodus korrigiert suggestive Annahmen, verlangt bei Mehrtarifprodukten die Tarifstufe und verweigert verbindliche Aussagen ohne bekannten Bedingungsstand. Der vollständige Prüfbericht liegt als `PRUEFBERICHT_EDITION15.md` bei.
 

@@ -1,6 +1,6 @@
-/* RuVKompendium 15 – fachliche Freigabeschicht für aktuelles Privatkunden-Neugeschäft */
+/* RuVKompendium 16 – fachliche Freigabeschicht für aktuelles Privatkunden-Neugeschäft */
 const AUDIT_META = {
-  edition: 15,
+  edition: 16,
   checked: '10.08.2026',
   market: 'Deutschland',
   scope: 'R+V Privatkunden · aktuelles Neugeschäft',

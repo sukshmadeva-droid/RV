@@ -1,5 +1,5 @@
-/* RuVKompendium 15 – allgemeiner Fall-Navigator */
-const CASE_META = { edition: 15, checked: '10.08.2026' };
+/* RuVKompendium 16 – allgemeiner Fall-Navigator */
+const CASE_META = { edition: 16, checked: '10.08.2026' };
 
 const CASE_SOURCES = {
   houseValues: { document: 'R+V-Hausratversicherung – Leistungsübersicht', location: 'Stand 07/2026 · Seiten 1–2', text: 'Die Leistungsübersicht nennt Wertsachen mit 200 EUR je Quadratmeter, in comfort und premium mindestens 25.000 EUR und erhöhbar. Hausrat in Bankschließfächern ist mit 20.000 EUR in classic, 30.000 EUR in comfort und 100.000 EUR in premium ausgewiesen.' },

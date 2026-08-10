@@ -1,4 +1,4 @@
-/* RuVKompendium 15 – Leistungsdatenbank, öffentliche R+V-Quellen geprüft 10.08.2026. */
+/* RuVKompendium 16 – Leistungsdatenbank, öffentliche R+V-Quellen geprüft 10.08.2026. */
 const COVERAGE_META={
   "checked": "10.08.2026",
   "products": 83,

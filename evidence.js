@@ -1,5 +1,5 @@
 /*
- * RuVKompendium 15 – Evidence Layer
+ * RuVKompendium 16 – Evidence Layer
  * Geprüft 10.08.2026 anhand offizieller R+V-Bedingungswerke bzw. ausdrücklich
  * gekennzeichneter R+V-Produktseiten. Die Kurztexte sind redaktionelle
  * Verdichtungen der angegebenen Fundstellen, keine vollständige AVB-Wiedergabe.
