@@ -1,4 +1,4 @@
-/* RuVKompendium 11 – Leistungsdatenbank, öffentliche R+V-Quellen geprüft 10.08.2026. */
+/* RuVKompendium 12 – Leistungsdatenbank, öffentliche R+V-Quellen geprüft 10.08.2026. */
 const COVERAGE_META={
   "checked": "10.08.2026",
   "products": 81,
@@ -12276,15 +12276,15 @@ const COVERAGE={
         "values": {
           "Produkt": {
             "status": "limited",
-            "detail": "Individuell vereinbar; R+V zeigt öffentlich Stufen von 1.000 EUR bis 500.000 EUR."
+            "detail": "Individuell vereinbar; R+V nennt öffentlich 1.000 EUR bis 2.000.000 EUR."
           }
         },
         "source": {
           "kind": "Bedingungswerk / Produktinformation",
           "document": "Bedingungen Bankschließfachversicherung",
           "version": "öffentlich geprüft 10.08.2026",
-          "location": "R+V-Produktseite · Beitragstabelle",
-          "text": "Individuell vereinbar; R+V zeigt öffentlich Stufen von 1.000 EUR bis 500.000 EUR."
+          "location": "R+V-Produktseite · Kosten und Versicherungssumme",
+          "text": "Individuell vereinbar; R+V nennt öffentlich Versicherungssummen von 1.000 EUR bis 2.000.000 EUR."
         }
       },
       {

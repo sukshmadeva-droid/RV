@@ -1,10 +1,10 @@
 /*
- * RuVKompendium 11 – Evidence Layer
+ * RuVKompendium 12 – Evidence Layer
  * Geprüft 10.08.2026 anhand offizieller R+V-Bedingungswerke bzw. ausdrücklich
  * gekennzeichneter R+V-Produktseiten. Die Kurztexte sind redaktionelle
  * Verdichtungen der angegebenen Fundstellen, keine vollständige AVB-Wiedergabe.
  */
-const EVIDENCE_META={edition:11,checked:'10.08.2026'};
+const EVIDENCE_META={edition:12,checked:'10.08.2026'};
 
 const EVIDENCE={
   'kfz-auto':[
@@ -133,7 +133,15 @@ const EVIDENCE={
     {anchor:'tariff:premium',label:'Premium-Leistungswerte',kind:'R+V Produktseite / Leistungstabelle',source:'Hausratversicherung',code:'Tarifübersicht · geprüft 08.08.2026',location:'Außenversicherung / Bargeld / Versehensschutz',text:'Die aktuelle Tarifübersicht nennt für premium 12 Monate Außenversicherung bis 100.000 EUR, Bargeld bis 5.000 EUR und Versehensschutz zu Hause bis 5.000 EUR bei 500 EUR Selbstbeteiligung.'},
     {anchor:'highlight:0',label:'Hausrat und Wertsachen',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HRB 07/2026',location:'A8, A18 · HRB S. 13, 23–24',text:'Zum Hausrat gehören privat genutzte Sachen des Haushalts; Wertsachen und Bargeld sind mit besonderen Entschädigungsgrenzen einbezogen. Die vereinbarten Beträge stehen im Versicherungsschein.'},
     {anchor:'highlight:0',label:'Versicherungssumme und Neuwert',kind:'R+V Produktseite / FAQ',source:'Hausratversicherung',code:'Leistungsübersicht · geprüft 08.08.2026',location:'Versicherungssumme / FAQ „Wie hoch sollte …?“',text:'R+V weist die Versicherungssumme in der Tarifübersicht für classic, comfort und premium als unbegrenzt aus. Die FAQ erläutert: Bei korrekter Angabe der Wohnfläche besteht Neuwertschutz und eine Unterversicherung wird ausgeschlossen.'},
-    {anchor:'addon:hausrat auf reisen',label:'Außenversicherung / Reisen',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HRB 07/2026',location:'A12 · HRB S. 15–16',text:'Der Schutz für Hausrat außerhalb der Wohnung ist über die Außenversicherung geregelt. Bei Naturgefahren bestehen innerhalb der Außenversicherung zusätzliche Einschränkungen.'}
+    {anchor:'addon:hausrat auf reisen',label:'Außenversicherung / Reisen',kind:'Bedingungswerk',source:'R+V Privatkunden Verbraucherinformation premium',code:'HRB 07/2026',location:'A12 · HRB S. 15–16',text:'Der Schutz für Hausrat außerhalb der Wohnung ist über die Außenversicherung geregelt. Bei Naturgefahren bestehen innerhalb der Außenversicherung zusätzliche Einschränkungen.'},
+    {anchor:'highlight:3',label:'Bankschließfach, Wertsachengrenze und EMA',kind:'Bedingungswerk / Leistungstabelle',source:'R+V Hausrat Leistungsübersicht und HRB',code:'HRB 07/2026 · geprüft 10.08.2026',location:'Leistungsübersicht S. 1–2 · A12.6 · A18 · Z-ORT-02',text:'Die Leistungsübersicht nennt für Hausrat in Bankschließfächern 20.000 EUR in classic, 30.000 EUR in comfort und 100.000 EUR in premium. A18 regelt Wertsachen, Z-ORT-02 den Schließfachort. Ob die besondere Schließfachgrenze eigenständig neben der allgemeinen Wertsachengrenze gilt und ob nur dort gelagerte Mehrwerte EMA-Anforderungen am Wohnort beeinflussen, wird öffentlich nicht eindeutig aufgelöst. Vor einer Leistungs- oder Annahmezusage ist eine schriftliche R+V-Bestätigung erforderlich.'}
+  ],
+
+  'bankschliessfach':[
+    {anchor:'eligibility:0',label:'Schließfachanbieter',kind:'R+V Produktseite',source:'R+V-Bankschließfachversicherung',code:'Produktdarstellung · geprüft 10.08.2026',location:'Voraussetzungen / Abschluss',text:'Die öffentliche Produktdarstellung richtet das Angebot an Kundinnen und Kunden mit Bankschließfach bei einer Volks- oder Raiffeisenbank. Bei anderen Banken ist die Annahme vor Abschluss zu klären.'},
+    {anchor:'highlight:0',label:'Einstiegsbeitrag und Sondertarife',kind:'R+V Produktseite',source:'R+V-Bankschließfachversicherung',code:'Produktdarstellung · geprüft 10.08.2026',location:'Kosten und Vorteile',text:'R+V nennt einen Einstieg ab 6,99 EUR brutto pro Jahr bei 1.000 EUR Versicherungssumme sowie Sondertarife für Mitglieder und Mitarbeitende von Volks- und Raiffeisenbanken.'},
+    {anchor:'highlight:1',label:'Wählbare Versicherungssumme',kind:'R+V Produktseite / Bedingungswerk',source:'R+V-Bankschließfachversicherung',code:'AVB BSV 01/2024 · geprüft 10.08.2026',location:'Kosten und Versicherungssumme',text:'Die Versicherungssumme wird individuell vereinbart. Die öffentliche Produktdarstellung nennt eine Spanne von 1.000 EUR bis 2.000.000 EUR. Sie sollte mindestens dem nachweisbaren Gesamtwert des Schließfachinhalts entsprechen.'},
+    {anchor:'highlight:2',label:'Bargeld, Gold und Nachweis',kind:'R+V Produktseite / Bedingungswerk',source:'R+V-Bankschließfachversicherung',code:'AVB BSV 01/2024 · geprüft 10.08.2026',location:'Versicherte Sachen / Schadenfall',text:'Die Produktdarstellung erfasst Schließfachinhalte einschließlich Bargeld und Gold im vereinbarten Umfang. Im Schadenfall müssen Besitz, Wert und Einlagerung nachvollziehbar belegt werden; sinnvoll sind Inventar, Fotos, Rechnungen und getrennt aufbewahrte Nachweise.'}
   ],
 
   'pv':[

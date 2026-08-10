@@ -43,6 +43,12 @@ Runde blaue Zahlenkugeln ersetzen die bisherigen Symbol-Badges. Die Zahl entspri
 
 Suchfelder, fachliche Erläuterungen, Rollenentscheidungen, Handlungsschritte, Leistungsdetails und lokale Quellenstellen verwenden größere Mindestschriftgrade und eine verlässliche iPhone-Systemtypografie. Sehr kleine Schrift bleibt auf kurze Metadaten beschränkt. Die App sperrt den Browser-Zoom nicht mehr.
 
+## Fall-Navigator – Edition 12
+
+`cases.js` kombiniert öffentlich belegte Produktregeln zu neun häufigen Beratungskonstellationen: Werte/Aufbewahrung, Immobilien/Grundstücke, Vertragsrollen, Fahrzeuge/Halter, Personen/Bezugsrecht, Alter/Abschluss, Energie/Technik, Gefahren/Bausteine und Tiere/Halter. Jede Antwort trennt Ergebnis, belastbare Fakten, offene Fragen, nächste Schritte, Produktwege und lokale Quellenstellen. Eine Ableitung, die sich aus öffentlichen Bedingungen nicht eindeutig treffen lässt, wird als **„bestätigen“** oder **„klären“** gekennzeichnet.
+
+Für Hausrat im Bankschließfach werden die tariflichen Schließfachgrenzen und die rechnerische Wertsachengrenze getrennt angezeigt. Das öffentlich nicht eindeutig aufgelöste Verhältnis zwischen HRB A18, Z-ORT-02 und möglichen Sicherungs-/EMA-Anforderungen wird nicht als Deckungszusage behandelt. Die App fordert in dieser Konstellation eine schriftliche R+V-Bestätigung. Die eigenständige Bankschließfachversicherung wird als separater Schutzweg mit eigener Versicherungssumme dargestellt.
+
 Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen offiziellen R+V-Unterlagen separat ausgewertet. Diese Belege stehen in `evidence.js` und werden über das kleine Quellen-Icon direkt in der App angezeigt. Enthalten sind insbesondere Tarifabgrenzungen und zentrale Leistungsmerkmale aus:
 
 - PrivatPolice premium Haftpflicht/Haushalt (HPB 07/26, HRB 07/2026)

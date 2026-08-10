@@ -1,4 +1,4 @@
-# RuVKompendium 11
+# RuVKompendium 12
 
 Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller Datenstand: **10.08.2026**.
 
@@ -20,6 +20,8 @@ Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller D
 - Edition 09: interaktiver Rollen-Checker für neun Spartenkonstellationen mit Klick-Auswahl von Eigentümer/versicherter Person, Versicherungsnehmer, Beitragszahler, Beziehung und Einwilligung
 - Edition 10: einheitliche blaue Quellenkugeln; die Zahl zeigt die Anzahl der direkt offline lesbaren Belege und ersetzt die bisherigen orange markierten Symbol-Badges
 - Edition 11: größere, iPhone-taugliche Such-, Beratungs-, Matrix- und Quellentexte, korrigierte Schriftvererbung für Safari und wieder freigegebener Pinch-Zoom
+- Edition 12: allgemeiner Fall-Navigator für neun häufige Konstellationen mit Klick-Auswahl, sofortiger Einordnung, offenen Fragen, nächsten Schritten, Produktwegen und offline lesbarer Quellenbasis
+- Werte-/Aufbewahrungslogik für Hausrat und Bankschließfach einschließlich Tarifgrenzen, Wohnfläche, häuslichem Bestand, Schließfachwert und bewusst gekennzeichneter EMA-/Wertsachen-Unklarheit
 - Produktspezifische Suchbegriffe und Matrixhinweise zu Versicherung für fremde Rechnung, abweichendem Halter/Eigentümer, versicherter Person und Bezugsrecht
 - Aktuell 39 explizite Abschluss-/Grenzangaben und über 200 lokale Quellenbelege; kein Produktweg bleibt nur als unbefülltes Kurzprofil stehen
 - Keine externen Libraries, kein Build-Schritt
@@ -35,7 +37,7 @@ Die App verwendet ausschließlich relative Asset-Pfade und funktioniert deshalb 
 
 ## Pflege der Daten
 
-Die Produktdaten stehen in `data.js`, die fachlich geprüften Quellenbelege in `evidence.js`, die Leistungsdatenbank in `coverage.js` und die Rollenlogik in `roles.js`. Jede Überarbeitung wird als neue fortlaufende Edition geführt; `sw.js` erhält dafür ebenfalls einen neuen Cache-Namen.
+Die Produktdaten stehen in `data.js`, die fachlich geprüften Quellenbelege in `evidence.js`, die Leistungsdatenbank in `coverage.js`, die Rollenlogik in `roles.js` und der allgemeine Fall-Navigator in `cases.js`. Jede Überarbeitung wird als neue fortlaufende Edition geführt; `sw.js` erhält dafür ebenfalls einen neuen Cache-Namen.
 
 ## Fachlicher Hinweis
 

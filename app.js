@@ -1,15 +1,17 @@
-/* RuVKompendium 11 – offline-first, dependency-free, GitHub Pages friendly */
+/* RuVKompendium 12 – offline-first, dependency-free, GitHub Pages friendly */
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const state = { category: 'Alle', query: '', limit: 18, detailProduct: null, matrixQuery: '', matrixVariant: 'Alle' };
 const roleState = { product: 'building', interest: 'other', payer: 'self', consent: 'yes', relation: 'family', beneficiary: 'insured' };
+const caseState = { topic: 'values', selections: Object.fromEntries(Object.entries(CASE_DEFAULTS).map(([key, value]) => [key, { ...value }])) };
 const norm = value => (value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ß/g, 'ss').replace(/[+&/–—-]/g, ' ').replace(/[^a-z0-9äöü ]/g, ' ').replace(/\s+/g, ' ').trim();
 const esc = value => String(value ?? '').replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
 const synonyms = {
   phv: ['privathaftpflicht'], haftpflicht: ['privathaftpflicht'], bu: ['berufsunfahigkeit'], sbu: ['berufsunfahigkeit'], du: ['dienstunfahigkeit'], gf: ['grundfahigkeit'],
   kfz: ['auto', 'autoversicherung', 'kfzpolice', 'fahrzeug'], pkw: ['auto', 'kfz'], pkv: ['private krankenversicherung', 'vollversicherung'], kv: ['krankenversicherung'],
   zahn: ['zahnersatz', 'zahnzusatz'], wg: ['wohngebaeude', 'gebaeude'], hr: ['hausrat'], rs: ['rechtsschutz'], avb: ['bedingungen', 'bedingungswerk', 'verbraucherinformation'],
-  elementar: ['naturgefahren', 'hochwasser', 'starkregen', 'ueberschwemmung'], fahrrad: ['bike', 'pedelec', 'fahrraddiebstahl'], schluessel: ['schluesselverlust', 'privathaftpflicht'], solar: ['photovoltaik', 'pv']
+  elementar: ['naturgefahren', 'hochwasser', 'starkregen', 'ueberschwemmung'], fahrrad: ['bike', 'pedelec', 'fahrraddiebstahl'], schluessel: ['schluesselverlust', 'privathaftpflicht'], solar: ['photovoltaik', 'pv'],
+  schliessfach: ['bankschliessfach', 'bankschließfach'], ema: ['einbruchmeldeanlage', 'sicherungsanforderung'], wald: ['forst', 'waldgrundstueck', 'grundstueck']
 };
 const alternatives = token => [token, ...(synonyms[token] || [])].map(norm).filter(Boolean);
 
@@ -44,7 +46,7 @@ function matrixText(product) {
 }
 function searchable(product) {
   const evidence = (EVIDENCE[product.id] || []).map(item => `${item.label} ${item.kind} ${item.source} ${item.code} ${item.location} ${item.text}`).join(' ');
-  return norm([product.name, product.category, product.subcategory, product.summary, product.aliases?.join(' '), product.highlights?.join(' '), product.eligibility?.join(' '), product.addons?.join(' '), product.tariffs?.map(t => `${t.name} ${t.code || ''} ${t.note || ''}`).join(' '), product.docs?.map(d => d.label).join(' '), matrixText(product), ROLE_INDEX_BY_PRODUCT[product.id], evidence].join(' '));
+  return norm([product.name, product.category, product.subcategory, product.summary, product.aliases?.join(' '), product.highlights?.join(' '), product.eligibility?.join(' '), product.addons?.join(' '), product.tariffs?.map(t => `${t.name} ${t.code || ''} ${t.note || ''}`).join(' '), product.docs?.map(d => d.label).join(' '), matrixText(product), ROLE_INDEX_BY_PRODUCT[product.id], CASE_INDEX_BY_PRODUCT[product.id], evidence].join(' '));
 }
 function parseQuery(raw) {
   const filters = {}, text = [];
@@ -96,7 +98,7 @@ function render() {
   $('#resultTitle').textContent = state.query ? `Treffer für „${state.query}”` : state.category === 'Alle' ? 'Empfohlene Einstiege' : state.category;
   $('#resultCount').textContent = `${items.length}${items.length === state.limit ? '+' : ''} TREFFER`;
   $('#results').innerHTML = items.length ? items.map(card).join('') : '<div class="empty"><strong>Noch kein Treffer.</strong>Versuche einen Oberbegriff, ein Kürzel wie BU/PKV/PHV oder tippe nur den Anfang.</div>';
-  $('#roleCheckerBtn').classList.toggle('query-match', /fremd|rolle|eigentümer|eigentumer|beitragszahler|versicherungsnehmer|versicherte person|halter|bezugsberechtigt/i.test(state.query));
+  $('#caseNavigatorBtn').classList.toggle('query-match', /fremd|rolle|eigentümer|eigentumer|beitragszahler|versicherungsnehmer|versicherte person|halter|bezugsberechtigt|schließfach|schliessfach|wertsache|ema|wald|grundstück|grundstuck|wallbox|photovoltaik|abschlussalter|wer versichert/i.test(state.query));
   $$('.card').forEach(item => { item.onclick = () => openDetail(item.dataset.id); });
 }
 function setCategory(category) {
@@ -136,7 +138,10 @@ function renderDetail(product) {
   const docs = product.docs?.length ? `<h3 class="section-title">Bedingungswerke</h3>${product.docs.map(doc => `<a class="source-button secondary" href="${doc.url}" target="_blank" rel="noopener"><span>${doc.label}</span><b>↗</b></a>`).join('')}` : '';
   const roleCase = Object.entries(ROLE_PRODUCT_MAP).find(([, ids]) => ids.includes(product.id))?.[0];
   const roleInline = roleCase ? `<button type="button" class="role-inline" data-role-case="${roleCase}"><span>◎</span><span><strong>Vertragsrollen prüfen</strong><small>Versicherungsnehmer · ${ROLE_CASES[roleCase].interestLabel} · Beitragszahler</small></span><b>›</b></button>` : '';
-  $('#detailContent').innerHTML = `<div class="detail-hero"><p class="eyebrow">${product.category} · ${product.subcategory}</p><h2>${product.name}</h2><p>${product.summary}</p>${evidenceCount ? `<div class="evidence-summary"><span>${evidenceCount}</span><strong>Quellenbelege</strong><small>direkt offline lesbar</small></div>` : ''}</div>${roleInline}${eligibility}${facts}${tariffs}${addons}${renderMatrix(product)}${docs}<h3 class="section-title">R+V Quelle</h3><a class="source-button" href="${product.url}" target="_blank" rel="noopener"><span>Aktuelle Produktseite öffnen</span><b>↗</b></a><div class="notice">Schnellübersicht, Stand 10.08.2026. „Prüfen“ bedeutet: öffentlich nicht eindeutig dieser Tarifstufe zugeordnet. Maßgeblich sind konkreter Vertrag, Nachträge und vereinbarte Bedingungen.</div>`;
+  const caseTopic = Object.entries(CASE_TOPICS).find(([, item]) => item.products?.includes(product.id))?.[0];
+  const caseInline = caseTopic ? `<button type="button" class="role-inline case-inline" data-case-topic-inline="${caseTopic}"><span>◇</span><span><strong>Konkreten Fall prüfen</strong><small>${CASE_TOPICS[caseTopic].label} · Ergebnis mit Rückfragen und Quellen</small></span><b>›</b></button>` : '';
+  $('#detailContent').innerHTML = `<div class="detail-hero"><p class="eyebrow">${product.category} · ${product.subcategory}</p><h2>${product.name}</h2><p>${product.summary}</p>${evidenceCount ? `<div class="evidence-summary"><span>${evidenceCount}</span><strong>Quellenbelege</strong><small>direkt offline lesbar</small></div>` : ''}</div>${caseInline}${roleInline}${eligibility}${facts}${tariffs}${addons}${renderMatrix(product)}${docs}<h3 class="section-title">R+V Quelle</h3><a class="source-button" href="${product.url}" target="_blank" rel="noopener"><span>Aktuelle Produktseite öffnen</span><b>↗</b></a><div class="notice">Schnellübersicht, Stand 10.08.2026. „Prüfen“ bedeutet: öffentlich nicht eindeutig dieser Tarifstufe zugeordnet. Maßgeblich sind konkreter Vertrag, Nachträge und vereinbarte Bedingungen.</div>`;
+  $('.case-inline')?.addEventListener('click', event => { $('#detailDialog').close(); openCaseNavigator(event.currentTarget.dataset.caseTopicInline); });
   $('.role-inline')?.addEventListener('click', event => { roleState.product = event.currentTarget.dataset.roleCase; $('#detailDialog').close(); openRoleChecker(); });
   bindDetail(product);
 }
@@ -164,6 +169,32 @@ function openEvidence(productId, anchor) {
   $('#evidenceContent').innerHTML = list.map(item => `<article class="evidence-card"><div class="evidence-card-head"><span class="evidence-kind ${item.kind.startsWith('Bedingungswerk') ? 'avb' : 'web'}">${item.kind}</span><span class="evidence-check">GEPRÜFT ${EVIDENCE_META.checked}</span></div><h3>${item.source}</h3><div class="evidence-meta"><strong>${item.code}</strong><span>${item.location}</span></div>${item.quote ? `<blockquote>„${item.quote}“</blockquote>` : ''}<p class="evidence-text">${item.text}</p></article>`).join('');
   $('#evidenceDialog').showModal();
 }
+function caseField(field, selection) {
+  if (field.type === 'number') return `<label class="case-number"><span>${esc(field.label)}</span><input type="number" inputmode="numeric" data-case-number="${field.id}" min="${field.min}" max="${field.max}" step="${field.step}" value="${esc(selection[field.id])}"></label>`;
+  return `<section class="case-field"><h3>${esc(field.label)}</h3><div class="case-choices">${field.options.map(([value, label]) => `<button type="button" class="case-choice ${selection[field.id]===value?'active':''}" data-case-field="${field.id}" data-case-value="${value}">${esc(label)}</button>`).join('')}</div></section>`;
+}
+function caseAnswerHtml(answer) {
+  const products = answer.products.map(id => PRODUCTS.find(product => product.id === id)).filter(Boolean);
+  const sources = answer.sources.map(key => CASE_SOURCES[key]).filter(Boolean);
+  return `<section class="case-answer tone-${answer.tone}"><div class="case-verdict"><span>${esc(answer.verdict)}</span><small>${answer.tone==='yes'?'ABLEITBAR':answer.tone==='conditional'?'BEDINGT':answer.tone==='stop'?'STOPP':'KLÄREN'}</small></div><h2>${esc(answer.title)}</h2><p>${esc(answer.text)}</p>${answer.facts.length?`<div class="case-facts">${answer.facts.map(fact=>`<div><span>✓</span><p>${esc(fact)}</p></div>`).join('')}</div>`:''}${answer.questions.length?`<h3>Offene Fragen</h3><ul class="case-questions">${answer.questions.map(question=>`<li>${esc(question)}</li>`).join('')}</ul>`:''}${answer.actions.length?`<h3>Nächste Schritte</h3><ol class="case-actions">${answer.actions.map(action=>`<li>${esc(action)}</li>`).join('')}</ol>`:''}${products.length?`<h3>Passende Produktwege</h3><div class="case-products">${products.map(product=>`<button type="button" data-case-product="${product.id}"><span>${esc(product.name)}</span><b>›</b></button>`).join('')}</div>`:''}${sources.length?`<h3>Quellenbasis</h3><div class="case-sources">${sources.map((source,index)=>`<details><summary><span><i>${index+1}</i>${esc(source.document)}</span><b>›</b></summary><div><strong>${esc(source.location)}</strong><p>${esc(source.text)}</p></div></details>`).join('')}</div>`:''}</section>`;
+}
+function renderCaseResult() {
+  const target=$('#caseResult'); if(!target)return;
+  target.innerHTML=caseAnswerHtml(caseAnswer(caseState.topic,caseState.selections[caseState.topic]||{}));
+  $$('[data-case-product]').forEach(button=>{button.onclick=()=>{$('#caseDialog').close();openDetail(button.dataset.caseProduct);};});
+}
+function renderCaseNavigator() {
+  const topic=CASE_TOPICS[caseState.topic], selection=caseState.selections[caseState.topic]||{};
+  const topics=Object.entries(CASE_TOPICS).map(([id,item])=>`<button type="button" class="case-topic ${id===caseState.topic?'active':''}" data-case-topic="${id}"><span>${item.icon}</span><strong>${esc(item.label)}</strong><small>${esc(item.subtitle)}</small></button>`).join('');
+  const delegate=topic.delegate==='roles'?`<section class="case-delegate"><span>◎</span><div><strong>Vertragsrollen im Detail prüfen</strong><p>Eigentümer, Halter, versicherte Person, Beitragszahler und Bezugsrecht auswählen.</p></div><button type="button" id="caseOpenRoles">Öffnen ›</button></section>`:'';
+  $('#caseContent').innerHTML=`<div class="case-head"><p class="eyebrow">INTELLIGENTER FALL-NAVIGATOR</p><h2>Konstellation statt Stichwort</h2><p>Thema auswählen, Angaben anklicken – Antwort, Rückfragen und Quellen erscheinen sofort.</p></div><div class="case-topics">${topics}</div><div class="case-work"><div class="case-work-title"><span>${topic.icon}</span><div><strong>${esc(topic.label)}</strong><small>${esc(topic.subtitle)}</small></div></div>${topic.fields.map(field=>caseField(field,selection)).join('')}${delegate}<div id="caseResult"></div></div><div class="notice">Der Navigator kombiniert öffentlich belegte Regeln. „Klären“ bedeutet bewusst: Ohne Annahmerichtlinie, konkrete Vertragsdaten oder schriftliche R+V-Bestätigung ist keine belastbare Zusage möglich.</div>`;
+  $$('[data-case-topic]').forEach(button=>{button.onclick=()=>{caseState.topic=button.dataset.caseTopic;renderCaseNavigator();};});
+  $$('[data-case-field]').forEach(button=>{button.onclick=()=>{caseState.selections[caseState.topic][button.dataset.caseField]=button.dataset.caseValue;renderCaseNavigator();};});
+  $$('[data-case-number]').forEach(input=>{input.oninput=()=>{caseState.selections[caseState.topic][input.dataset.caseNumber]=Number(input.value)||0;renderCaseResult();};});
+  $('#caseOpenRoles')?.addEventListener('click',()=>{$('#caseDialog').close();openRoleChecker();});
+  renderCaseResult();
+}
+function openCaseNavigator(topic) { if(topic&&CASE_TOPICS[topic])caseState.topic=topic;renderCaseNavigator();$('#caseDialog').showModal(); }
 function roleChoice(field, value, label, active) {
   return `<button type="button" class="role-choice ${active ? 'active' : ''}" data-role-field="${field}" data-role-value="${value}">${label}</button>`;
 }
@@ -192,7 +223,8 @@ function init() {
   };
   $('#evidenceClose').onclick = () => $('#evidenceDialog').close(); $('#evidenceDialog').onclick = event => { if (event.target === $('#evidenceDialog')) $('#evidenceDialog').close(); };
   $('#infoBtn').onclick = () => $('#infoDialog').showModal(); $('#infoClose').onclick = () => $('#infoDialog').close();
-  $('#roleCheckerBtn').onclick = openRoleChecker; $('#roleClose').onclick = () => $('#roleDialog').close(); $('#roleDialog').onclick = event => { if (event.target === $('#roleDialog')) $('#roleDialog').close(); };
+  $('#caseNavigatorBtn').onclick = () => openCaseNavigator(); $('#caseClose').onclick = () => $('#caseDialog').close(); $('#caseDialog').onclick = event => { if (event.target === $('#caseDialog')) $('#caseDialog').close(); };
+  $('#roleClose').onclick = () => $('#roleDialog').close(); $('#roleDialog').onclick = event => { if (event.target === $('#roleDialog')) $('#roleDialog').close(); };
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {}); render();
 }
 init();
