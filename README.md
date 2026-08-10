@@ -1,4 +1,4 @@
-# RuVKompendium 9
+# RuVKompendium 11
 
 Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller Datenstand: **10.08.2026**.
 
@@ -18,6 +18,8 @@ Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller D
 - Eigenständiges Karten-K-App-Icon mit R+V-Kennung in der rechten unteren Ecke
 - Edition 08: klare Statuslogik „Enthalten / Begrenzt / Optional / Nicht enthalten / Prüfen“, tarifweiser Fokus und Quellenunterlegung je Matrixzeile
 - Edition 09: interaktiver Rollen-Checker für neun Spartenkonstellationen mit Klick-Auswahl von Eigentümer/versicherter Person, Versicherungsnehmer, Beitragszahler, Beziehung und Einwilligung
+- Edition 10: einheitliche blaue Quellenkugeln; die Zahl zeigt die Anzahl der direkt offline lesbaren Belege und ersetzt die bisherigen orange markierten Symbol-Badges
+- Edition 11: größere, iPhone-taugliche Such-, Beratungs-, Matrix- und Quellentexte, korrigierte Schriftvererbung für Safari und wieder freigegebener Pinch-Zoom
 - Produktspezifische Suchbegriffe und Matrixhinweise zu Versicherung für fremde Rechnung, abweichendem Halter/Eigentümer, versicherter Person und Bezugsrecht
 - Aktuell 39 explizite Abschluss-/Grenzangaben und über 200 lokale Quellenbelege; kein Produktweg bleibt nur als unbefülltes Kurzprofil stehen
 - Keine externen Libraries, kein Build-Schritt

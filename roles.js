@@ -1,5 +1,5 @@
-/* RuVKompendium 9 – Rollen-Checker und Querschnittswissen */
-const ROLE_META = { checked: '10.08.2026', edition: 9 };
+/* RuVKompendium 11 – Rollen-Checker und Querschnittswissen */
+const ROLE_META = { checked: '10.08.2026', edition: 11 };
 
 const ROLE_CASES = {
   building: {

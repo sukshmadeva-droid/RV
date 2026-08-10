@@ -35,6 +35,14 @@ Jeder Eintrag in der App enthält zusätzlich seine konkrete R+V-Produktseite so
 
 Der Rollen-Checker in `roles.js` unterscheidet Versicherungsnehmer, Eigentümer/Halter beziehungsweise versicherte Person, Beitragszahler und – soweit relevant – Bezugsberechtigte. 73 produktspezifische Rollenhinweise ergänzen die Leistungsdatenbank. Grundlage sind insbesondere §§ 43–47, 89, 150, 179, 193 und 207 VVG sowie die jeweils zugeordneten R+V-Bedingungen. Ein abweichender Beitragszahler wird ausdrücklich nicht mit einer versicherten oder leistungsberechtigten Person gleichgesetzt.
 
+## Quellenbedienung – Edition 10
+
+Runde blaue Zahlenkugeln ersetzen die bisherigen Symbol-Badges. Die Zahl entspricht der Anzahl der lokal hinterlegten Quellenbelege; ein Tipp öffnet die zugehörigen Textstellen direkt in der App.
+
+## Lesbarkeit – Edition 11
+
+Suchfelder, fachliche Erläuterungen, Rollenentscheidungen, Handlungsschritte, Leistungsdetails und lokale Quellenstellen verwenden größere Mindestschriftgrade und eine verlässliche iPhone-Systemtypografie. Sehr kleine Schrift bleibt auf kurze Metadaten beschränkt. Die App sperrt den Browser-Zoom nicht mehr.
+
 Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen offiziellen R+V-Unterlagen separat ausgewertet. Diese Belege stehen in `evidence.js` und werden über das kleine Quellen-Icon direkt in der App angezeigt. Enthalten sind insbesondere Tarifabgrenzungen und zentrale Leistungsmerkmale aus:
 
 - PrivatPolice premium Haftpflicht/Haushalt (HPB 07/26, HRB 07/2026)
