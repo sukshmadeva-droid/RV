@@ -1,5 +1,5 @@
-/* RuVKompendium 12 – allgemeiner Fall-Navigator */
-const CASE_META = { edition: 12, checked: '10.08.2026' };
+/* RuVKompendium 13 – allgemeiner Fall-Navigator */
+const CASE_META = { edition: 13, checked: '10.08.2026' };
 
 const CASE_SOURCES = {
   houseValues: { document: 'R+V-Hausratversicherung – Leistungsübersicht', location: 'Stand 07/2026 · Seiten 1–2', text: 'Die Leistungsübersicht nennt Wertsachen mit 200 EUR je Quadratmeter, in comfort und premium mindestens 25.000 EUR und erhöhbar. Hausrat in Bankschließfächern ist mit 20.000 EUR in classic, 30.000 EUR in comfort und 100.000 EUR in premium ausgewiesen.' },
@@ -33,7 +33,8 @@ const CASE_TOPICS = {
       { id: 'propertyType', label: 'Welche Konstellation?', type: 'choice', options: [['ownHome','Eigenes Wohngebäude'],['foreignHome','Fremdes Gebäude versichern'],['unbuilt','Unbebautes Grundstück'],['forest','Wald-/Forstgrundstück'],['rental','Vermietetes Gebäude']] },
       { id: 'owner', label: 'Eigentümer zugleich Versicherungsnehmer?', type: 'choice', options: [['same','Ja'],['other','Nein, andere Person']] },
       { id: 'use', label: 'Nutzung', type: 'choice', options: [['private','Privat'],['rented','Vermietet / verpachtet'],['commercial','Gewerblich / forstwirtschaftlich']] },
-      { id: 'area', label: 'Grundstücksfläche in m²', type: 'number', min: 0, max: 10000000, step: 100 }
+      { id: 'livingArea', label: 'Wohnfläche in m²', type: 'number', min: 1, max: 10000, step: 1, when: { field: 'propertyType', values: ['ownHome','foreignHome','rental'] } },
+      { id: 'landArea', label: 'Grundstücksfläche in m²', type: 'number', min: 1, max: 10000000, step: 100, when: { field: 'propertyType', values: ['unbuilt','forest'] } }
     ]
   },
   roles: { label: 'Vertragsrollen', icon: '◎', subtitle: 'Wer versichert wen?', products: [], delegate: 'roles', fields: [] },
@@ -93,7 +94,7 @@ const CASE_TOPICS = {
 
 const CASE_DEFAULTS = {
   values:{tariff:'premium',area:100,boxValue:50000,homeValue:10000,kind:'gold',bank:'vr'},
-  property:{propertyType:'foreignHome',owner:'other',use:'private',area:8000},
+  property:{propertyType:'foreignHome',owner:'other',use:'private',livingArea:150,landArea:8000},
   mobility:{vehicle:'car',holder:'other',ownership:'own',drivers:'fixed'},
   person:{product:'life',insured:'other',beneficiary:'other',consent:'yes'},
   entry:{age:10,status:'student',goal:'income'},
@@ -110,7 +111,7 @@ function valueCase(s) {
   if (s.tariff === 'separate') {
     const eligible = s.bank === 'vr', enough = box <= 2000000;
     return result(eligible && enough ? 'yes' : 'warning', eligible && enough ? 'Passender Schutzweg' : 'Annahme klären', 'Eigenständige Bankschließfachversicherung', `Der Schließfachwert von ${money(box)} wird über eine eigene Versicherungssumme abgebildet und verändert die häusliche Wertsachengrenze nicht.`, {
-      facts:[`Öffentliche R+V-Spanne: 1.000 € bis 2.000.000 €.`,`Wertsachen zu Hause: ${money(home)} bleiben separat über die Hausratversicherung zu bewerten.`],
+      facts:[{text:'Öffentliche R+V-Spanne: 1.000 € bis 2.000.000 €.',tone:enough?'yes':'warning'},{text:`Wertsachen zu Hause: ${money(home)} bleiben separat über die Hausratversicherung zu bewerten.`,tone:'info'}],
       questions:[eligible?'Ist die gewählte Versicherungssumme mindestens so hoch wie der nachweisbare Schließfachinhalt?':'Die öffentliche R+V-Lösung ist für Schließfächer bei Volks- und Raiffeisenbanken beschrieben.',...(s.kind==='cash'?['Wie werden Betrag und Einlagerungszeitpunkt des Bargelds nachgewiesen?']:[])],
       actions:[enough?'Versicherungssumme regelmäßig an Wertänderungen anpassen.':'Schließfachwert über 2 Mio. € individuell anfragen.','Inventar, Fotos, Rechnungen und Einlagerungsnachweise getrennt vom Schließfach aufbewahren.'],products:['bankschliessfach','hausrat'],sources:['bankBox']
     });
@@ -122,30 +123,43 @@ function valueCase(s) {
   const tone = !boxEnough || !homeEnough ? 'warning' : bankAboveGeneral ? 'conditional' : 'yes';
   const verdict = !boxEnough ? 'Schließfachgrenze reicht nicht' : !homeEnough ? 'Häusliche Grenze erhöhen' : bankAboveGeneral ? 'Nominal passend · bestätigen' : 'Grenzen nominal ausreichend';
   return result(tone, verdict, 'Hausrat und Bankschließfach getrennt betrachten', `Im Tarif ${s.tariff} beträgt die besondere Schließfachgrenze ${money(bankLimit)}. Die rechnerische allgemeine Wertsachengrenze liegt bei ${money(valueLimit)}.`, {
-    facts:[`Schließfach: ${money(box)} von ${money(bankLimit)}.`,`Zu Hause: ${money(home)} von rechnerisch ${money(valueLimit)}.`,`Die öffentlichen Bedingungen lösen nicht eindeutig auf, ob ein ausschließlich im Bankschließfach liegender Mehrwert die häusliche Wertsachengrenze oder EMA-Anforderungen beeinflusst.`],
+    facts:[{text:`Schließfach: ${money(box)} von ${money(bankLimit)}.`,tone:boxEnough?'yes':'warning'},{text:`Zu Hause: ${money(home)} von rechnerisch ${money(valueLimit)}.`,tone:homeEnough?'yes':'warning'},{text:'Die öffentlichen Bedingungen lösen nicht eindeutig auf, ob ein ausschließlich im Bankschließfach liegender Mehrwert die häusliche Wertsachengrenze oder EMA-Anforderungen beeinflusst.',tone:bankAboveGeneral?'warning':'info'}],
     questions:[...(bankAboveGeneral?['Gilt die Schließfachgrenze für Wertsachen eigenständig neben A18?','Löst der ausschließlich im Schließfach liegende Mehrwert keine EMA-Anforderung am Wohnort aus?']:[]),...(s.kind==='cash'||s.kind==='mixed'?['Gilt das Bankschließfach als verschlossener Wertschutzschrank für die Bargeldgrenze?']:[]),...(s.kind==='gold'||s.kind==='mixed'?['Welche Nachweise werden für Gold, Schmuck oder Münzen verlangt?']:[])],
     actions:[...(!boxEnough?['Separate Bankschließfachversicherung oder individuelle höhere Schließfachlösung prüfen.']:[]),...(!homeEnough?['Häusliche Wertsachengrenze erhöhen und Sicherungsanforderungen einschließlich EMA prüfen.']:[]),...(bankAboveGeneral?['Vor Leistungszusage schriftliche R+V-Bestätigung zur Abgrenzung Z-ORT-02/A18 dokumentieren.']:['Grenzen und Aufbewahrungsnachweise im Beratungsprotokoll dokumentieren.'])],products:['hausrat','bankschliessfach'],sources:['houseValues','houseTerms','bankBox']
   });
 }
 
 function propertyCase(s) {
-  const area=Number(s.area)||0, different=s.owner==='other';
+  const livingArea=Number(s.livingArea)||0, landArea=Number(s.landArea)||0, different=s.owner==='other';
   if (s.propertyType==='unbuilt'||s.propertyType==='forest') {
-    const forest=s.propertyType==='forest', commercial=s.use==='commercial', premium=area<=10000, comfort=area<=2000;
-    return result(forest||commercial?'warning':premium?'conditional':'warning', forest||commercial?'Risikoeinordnung erforderlich':comfort?'comfort oder premium prüfen':premium?'premium prüfen':'Spezialschutz erforderlich', forest?'Wald ist nicht automatisch nur ein unbebautes Grundstück':'Unbebautes Grundstück nach Fläche und Nutzung einordnen', `Die PHV-Leistungsübersicht nennt unbebaute Grundstücke in comfort bis 2.000 m² und in premium bis 10.000 m². Angegeben sind ${area.toLocaleString('de-DE')} m².`, {
-      facts:[comfort?'Die Fläche liegt innerhalb der comfort-Grenze.':premium?'Die Fläche liegt nur innerhalb der premium-Grenze.':'Die Fläche überschreitet auch die premium-Grenze.',commercial?'Eine gewerbliche oder forstwirtschaftliche Nutzung ist nicht als private Grundstücksinhaberschaft zu unterstellen.':'Private Nutzung angegeben.'],
+    const forest=s.propertyType==='forest', commercial=s.use==='commercial', premium=landArea<=10000, comfort=landArea<=2000;
+    const areaFact=comfort
+      ? {text:'Die Fläche liegt innerhalb der veröffentlichten comfort-Grenze.',tone:forest?'info':'yes'}
+      : premium
+        ? {text:'Die Fläche liegt über der comfort-Grenze und nur innerhalb der veröffentlichten premium-Grenze.',tone:'info'}
+        : {text:'Die Fläche überschreitet auch die veröffentlichte premium-Grenze von 10.000 m².',tone:'warning'};
+    const useFact=forest
+      ? {text:'Wald-/Forstfläche ist nicht automatisch einem privat unbebauten Grundstück gleichzusetzen.',tone:'warning'}
+      : commercial
+        ? {text:'Eine gewerbliche oder forstwirtschaftliche Nutzung ist nicht als private Grundstücksinhaberschaft zu unterstellen.',tone:'warning'}
+        : {text:'Private Nutzung angegeben.',tone:'info'};
+    return result(forest||commercial?'warning':premium?'conditional':'warning', forest||commercial?'Risikoeinordnung erforderlich':comfort?'comfort oder premium prüfen':premium?'premium prüfen':'Spezialschutz erforderlich', forest?'Wald ist nicht automatisch nur ein unbebautes Grundstück':'Unbebautes Grundstück nach Fläche und Nutzung einordnen', `Die PHV-Leistungsübersicht nennt unbebaute Grundstücke in comfort bis 2.000 m² und in premium bis 10.000 m². Angegeben sind ${landArea.toLocaleString('de-DE')} m².`, {
+      facts:[areaFact,useFact],
       questions:[forest?'Bestätigt R+V ausdrücklich, dass Wald-/Forstfläche unter „unbebautes Grundstück“ fällt?':'Ist das Grundstück tatsächlich unbebaut?',s.use==='rented'?'Ist Vermietung/Verpachtung im gewählten Tarif eingeschlossen?':'Entstehen Einnahmen oder findet eine wirtschaftliche Nutzung statt?',different?'Ist der tatsächliche Eigentümer als versicherte Person erfasst?':'Wer haftet rechtlich als Eigentümer?'],
       actions:['Fläche, Lage, Nutzung und Eigentümer im Antrag dokumentieren.',forest||commercial?'Vor Zusage schriftliche Risikobestätigung oder Haus- und Grundbesitzer-/Betriebslösung einholen.':'Tarifgrenze mit dem konkreten Versicherungsschein abgleichen.'],products:['phv','hugb'],sources:['phvProperty','roles']
     });
   }
-  if (s.propertyType==='foreignHome'||different) return result('conditional','Möglich · Rollen sauber trennen','Fremdes Gebäude kann nicht über den Beitragszahler erklärt werden','Gebäude-, Hausrat- und Haftpflichtschutz können unterschiedliche Versicherungsnehmer, Eigentümer und versicherte Interessen haben. Entscheidend ist, wer Eigentümer ist, wessen Interesse versichert wird und wer haftet.',{facts:['Beitragszahlung allein erzeugt kein Eigentum und keinen Haftpflichtschutz.','Wohngebäude/Hausrat können als Versicherung für fremde Rechnung gestaltet werden; Annahme und Dokumentation müssen passen.'],questions:['Wer ist Eigentümer des Gebäudes?','Wer ist Versicherungsnehmer und Beitragszahler?','Wessen Hausrat befindet sich dort?','Wer haftet als Haus- und Grundbesitzer?'],actions:['Vertragsrollen-Checker öffnen.','Eigentümer beziehungsweise versichertes Interesse im Antrag und Versicherungsschein eindeutig benennen.','Haftpflicht des tatsächlichen Eigentümers separat sicherstellen.'],products:['wohngebaeude','hausrat','hugb'],sources:['roles']});
-  return result('yes','Standardkonstellation','Eigentümer und Versicherungsnehmer stimmen überein','Gebäude-, Hausrat- und Haftpflichtrisiken können entlang der tatsächlichen Nutzung strukturiert werden.',{questions:['Ist das Gebäude selbst genutzt oder vermietet?','Sind Naturgefahren, Glas, PV und Mietverlust relevant?'],actions:['Gebäudewert und Wohnfläche korrekt erfassen.','Zusatzbausteine anhand Lage und Nutzung prüfen.'],products:['wohngebaeude','hausrat','hugb'],sources:['roles','natural']});
+  const areaFact={text:`Erfasste Wohnfläche: ${livingArea.toLocaleString('de-DE')} m².`,tone:'info'};
+  if (s.propertyType==='foreignHome'||different) return result('conditional','Möglich · Rollen sauber trennen','Fremdes Gebäude kann nicht über den Beitragszahler erklärt werden','Gebäude-, Hausrat- und Haftpflichtschutz können unterschiedliche Versicherungsnehmer, Eigentümer und versicherte Interessen haben. Entscheidend ist, wer Eigentümer ist, wessen Interesse versichert wird und wer haftet.',{facts:[areaFact,{text:'Beitragszahlung allein erzeugt kein Eigentum und keinen Haftpflichtschutz.',tone:'warning'},{text:'Wohngebäude/Hausrat können als Versicherung für fremde Rechnung gestaltet werden; Annahme und Dokumentation müssen passen.',tone:'info'}],questions:['Wer ist Eigentümer des Gebäudes?','Wer ist Versicherungsnehmer und Beitragszahler?','Wessen Hausrat befindet sich dort?','Wer haftet als Haus- und Grundbesitzer?'],actions:['Vertragsrollen-Checker öffnen.','Eigentümer beziehungsweise versichertes Interesse im Antrag und Versicherungsschein eindeutig benennen.','Haftpflicht des tatsächlichen Eigentümers separat sicherstellen.'],products:['wohngebaeude','hausrat','hugb'],sources:['roles']});
+  if (s.propertyType==='rental'||s.use==='rented') return result('conditional','Vermietung gezielt prüfen','Vermietetes Gebäude braucht eine eigene Risikoeinordnung','Wohngebäude, Haus- und Grundbesitzerhaftpflicht, Mietverlust und gegebenenfalls Vermieter-Rechtsschutz sind entlang der tatsächlichen Vermietung zu prüfen.',{facts:[areaFact,{text:'Die Nutzung ist als vermietet beziehungsweise verpachtet angegeben.',tone:'info'}],questions:['Wie viele Wohneinheiten werden vermietet?','Ist das Gebäude vollständig oder teilweise selbst genutzt?','Welche Mietausfall- und Haftpflichtrisiken sollen eingeschlossen werden?'],actions:['Vermietungsumfang und Wohnfläche vollständig erfassen.','Wohngebäude- und Haus-/Grundbesitzer-Schutz gemeinsam prüfen.'],products:['wohngebaeude','hugb','recht-immo'],sources:['roles','natural']});
+  if (s.use==='commercial') return result('warning','Nutzung widerspricht Standardfall','Gewerbliche Nutzung separat einordnen','Ein eigenes Wohngebäude mit gewerblicher Nutzung darf nicht ungeprüft als rein privates Wohnrisiko behandelt werden.',{facts:[areaFact,{text:'Gewerbliche Nutzung wurde ausgewählt.',tone:'warning'}],questions:['Welcher Anteil der Fläche wird gewerblich genutzt?','Welche Tätigkeit findet dort statt?'],actions:['Nutzung und Flächenanteile dokumentieren.','Annahme und gegebenenfalls Gewerbelösung prüfen.'],products:['wohngebaeude','hugb'],sources:['roles']});
+  return result('yes','Standardkonstellation','Eigentümer und Versicherungsnehmer stimmen überein','Gebäude-, Hausrat- und Haftpflichtrisiken können entlang der tatsächlichen Nutzung strukturiert werden.',{facts:[areaFact],questions:['Ist die angegebene Wohnfläche vollständig und korrekt?','Sind Naturgefahren, Glas, PV und Mietverlust relevant?'],actions:['Gebäudewert und Wohnfläche korrekt erfassen.','Zusatzbausteine anhand Lage und Nutzung prüfen.'],products:['wohngebaeude','hausrat','hugb'],sources:['roles','natural']});
 }
 
 function mobilityCase(s) {
   const different=s.holder==='other', lease=s.ownership==='lease';
   const map={car:'kfz-auto',ev:'kfz-eauto',bike:'kfz-motorrad',camper:'kfz-wohnmobil'};
-  return result(different?'conditional':'yes',different?'Abweichenden Halter angeben':'Rollen plausibel','Versicherungsnehmer, Halter, Eigentümer und Fahrer getrennt prüfen',different?'Ein abweichender Halter ist grundsätzlich erfassbar, kann aber Annahme, Beitrag und Schadenfreiheitsrabatt beeinflussen.':'Versicherungsnehmer und Halter stimmen überein.',{facts:[lease?'Leasing/Finanzierung: Eigentümer und möglicher GAP-Bedarf gesondert erfassen.':'Eigentum wurde nicht als Leasing/Finanzierung angegeben.',s.drivers==='young'?'Junge Fahrer verändern regelmäßig Beitrag und Annahme.':s.drivers==='open'?'Ein offener Fahrerkreis muss tarifiert werden.':'Bekannter Fahrerkreis angegeben.'],questions:['Wer ist in der Zulassungsbescheinigung als Halter eingetragen?','Wer trägt das wirtschaftliche Eigentumsinteresse?','Wer fährt regelmäßig oder gelegentlich?'],actions:['Rollen und Fahrerkreis vollständig im Antrag angeben.',lease?'GAP-/Differenzkaskoschutz und Vorgaben des Finanzierers prüfen.':'Kasko nach Fahrzeugwert und Nutzung wählen.'],products:[map[s.vehicle]||'kfz-auto'],sources:['motor']});
+  return result(different?'conditional':'yes',different?'Abweichenden Halter angeben':'Rollen plausibel','Versicherungsnehmer, Halter, Eigentümer und Fahrer getrennt prüfen',different?'Ein abweichender Halter ist grundsätzlich erfassbar, kann aber Annahme, Beitrag und Schadenfreiheitsrabatt beeinflussen.':'Versicherungsnehmer und Halter stimmen überein.',{facts:[{text:lease?'Leasing/Finanzierung: Eigentümer und möglicher GAP-Bedarf gesondert erfassen.':'Eigentum wurde nicht als Leasing/Finanzierung angegeben.',tone:lease?'info':'yes'},{text:s.drivers==='young'?'Junge Fahrer verändern regelmäßig Beitrag und Annahme.':s.drivers==='open'?'Ein offener Fahrerkreis muss tarifiert werden.':'Bekannter Fahrerkreis angegeben.',tone:s.drivers==='fixed'?'yes':'warning'}],questions:['Wer ist in der Zulassungsbescheinigung als Halter eingetragen?','Wer trägt das wirtschaftliche Eigentumsinteresse?','Wer fährt regelmäßig oder gelegentlich?'],actions:['Rollen und Fahrerkreis vollständig im Antrag angeben.',lease?'GAP-/Differenzkaskoschutz und Vorgaben des Finanzierers prüfen.':'Kasko nach Fahrzeugwert und Nutzung wählen.'],products:[map[s.vehicle]||'kfz-auto'],sources:['motor']});
 }
 
 function personCase(s) {

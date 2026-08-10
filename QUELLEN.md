@@ -49,6 +49,10 @@ Suchfelder, fachliche Erläuterungen, Rollenentscheidungen, Handlungsschritte, L
 
 Für Hausrat im Bankschließfach werden die tariflichen Schließfachgrenzen und die rechnerische Wertsachengrenze getrennt angezeigt. Das öffentlich nicht eindeutig aufgelöste Verhältnis zwischen HRB A18, Z-ORT-02 und möglichen Sicherungs-/EMA-Anforderungen wird nicht als Deckungszusage behandelt. Die App fordert in dieser Konstellation eine schriftliche R+V-Bestätigung. Die eigenständige Bankschließfachversicherung wird als separater Schutzweg mit eigener Versicherungssumme dargestellt.
 
+## Kontextfelder und Ergebnisfarben – Edition 13
+
+Die Immobilienabfrage zeigt abhängig von der Konstellation entweder **Wohnfläche** oder **Grundstücksfläche**. Grundstücksgrenzen aus der PHV-Leistungsübersicht werden ausschließlich für unbebaute Grundstücke und Wald-/Forstkonstellationen ausgewertet. Wohngebäudefälle verwenden die Wohnfläche und aktualisieren sie im Ergebnistext. Ergebnisfakten sind semantisch eingefärbt: neutral blau, belastbar passend grün, klärungs- oder grenzwertig orange und stoppend rot. Eine Überschreitung der premium-Grenze von 10.000 m² erscheint deshalb nicht mehr als grüner Bestätigungsbaustein.
+
 Für besonders beratungsrelevante Aussagen wurden Fundstellen aus den aktuellen offiziellen R+V-Unterlagen separat ausgewertet. Diese Belege stehen in `evidence.js` und werden über das kleine Quellen-Icon direkt in der App angezeigt. Enthalten sind insbesondere Tarifabgrenzungen und zentrale Leistungsmerkmale aus:
 
 - PrivatPolice premium Haftpflicht/Haushalt (HPB 07/26, HRB 07/2026)

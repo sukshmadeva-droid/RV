@@ -1,4 +1,4 @@
-# RuVKompendium 12
+# RuVKompendium 13
 
 Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller Datenstand: **10.08.2026**.
 
@@ -22,6 +22,8 @@ Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller D
 - Edition 11: größere, iPhone-taugliche Such-, Beratungs-, Matrix- und Quellentexte, korrigierte Schriftvererbung für Safari und wieder freigegebener Pinch-Zoom
 - Edition 12: allgemeiner Fall-Navigator für neun häufige Konstellationen mit Klick-Auswahl, sofortiger Einordnung, offenen Fragen, nächsten Schritten, Produktwegen und offline lesbarer Quellenbasis
 - Werte-/Aufbewahrungslogik für Hausrat und Bankschließfach einschließlich Tarifgrenzen, Wohnfläche, häuslichem Bestand, Schließfachwert und bewusst gekennzeichneter EMA-/Wertsachen-Unklarheit
+- Edition 13: kontextabhängige Flächenabfrage im Immobilienfall – Wohnfläche für Wohngebäude, Grundstücksfläche ausschließlich für Wald und unbebaute Grundstücke
+- Semantische Ergebnisfarben: Blau für neutrale Angaben, Grün nur für bestätigte Passung, Orange für Warnungen/Grenzüberschreitungen und Rot für Stopps
 - Produktspezifische Suchbegriffe und Matrixhinweise zu Versicherung für fremde Rechnung, abweichendem Halter/Eigentümer, versicherter Person und Bezugsrecht
 - Aktuell 39 explizite Abschluss-/Grenzangaben und über 200 lokale Quellenbelege; kein Produktweg bleibt nur als unbefülltes Kurzprofil stehen
 - Keine externen Libraries, kein Build-Schritt
