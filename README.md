@@ -1,6 +1,6 @@
 # RuVKompendium 16
 
-Build **16.0.1**, erstellt am **10.08.2026 um 21:52 CEST**.
+Build **16.0.2**, erstellt am **10.08.2026 um 22:01 CEST**.
 
 Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller Datenstand: **10.08.2026**.
 
@@ -27,7 +27,7 @@ Mobile-first PWA-Kompendium für das R+V-Privatkundenportfolio, redaktioneller D
 - Edition 13: kontextabhängige Flächenabfrage im Immobilienfall – Wohnfläche für Wohngebäude, Grundstücksfläche ausschließlich für Wald und unbebaute Grundstücke
 - Edition 14: Vermögensübertragung in vier eigenständige Produkte aufgeteilt; allgemeine Kombi- und Beratungsansichten verlinken ihre konkreten Einzelprodukte direkt
 - Edition 15: fachliche Freigabeschicht mit Quellenqualität je Matrixaussage, regelbasierter Fragenmodus und konsequenter Kennzeichnung nicht verifizierter Angaben
-- Edition 16: produktbezogener Fall-Navigator ohne allgemeine Themenkacheln; gewähltes Versicherungsprodukt als klare Überschrift, reparierte Absprünge zum Rollen-Checker und eindeutige Cache-Aktualisierung
+- Edition 16: produktbezogener Fall- und Rollen-Navigator ohne allgemeine Auswahlkacheln; gewähltes Versicherungsprodukt als klare Überschrift, Rücknavigation zur Produktübersicht, reparierte Absprünge und eindeutige Cache-Aktualisierung
 - R+V BKK, Lebensarbeitszeitkonto sowie konkrete Beiträge und Rabatte sind bewusst nicht Bestandteil dieser Edition
 - Semantische Ergebnisfarben: Blau für neutrale Angaben, Grün nur für bestätigte Passung, Orange für Warnungen/Grenzüberschreitungen und Rot für Stopps
 - Produktspezifische Suchbegriffe und Matrixhinweise zu Versicherung für fremde Rechnung, abweichendem Halter/Eigentümer, versicherter Person und Bezugsrecht

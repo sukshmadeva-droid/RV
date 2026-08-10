@@ -1,12 +1,14 @@
 RuVKompendium Edition 16
-Build: 16.0.1
-Erstellt: 10.08.2026, 21:52 CEST
+Build: 16.0.2
+Erstellt: 10.08.2026, 22:01 CEST
 
 Umgesetzt:
 - Produktbezogener Fall-Navigator ohne allgemeine Themenkacheln
 - Gewählte Versicherung als große Überschrift
 - Passendes Prüffeld direkt darunter
 - Vertragsrollen-Absprünge für Kfz und Risikoleben repariert
+- Produktkacheln im produktbezogenen Rollen-Checker entfernt
+- Schließen führt zurück zur vorherigen Versicherungsübersicht
 - Sämtliche Rollen- und Fall-Absprünge regressionsgetestet
 - Cache-Busting und aktualisierte Service-Worker-Strategie
 

@@ -2,7 +2,7 @@
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const state = { category: 'Alle', query: '', limit: 18, detailProduct: null, matrixQuery: '', matrixVariant: 'Alle' };
-const roleState = { product: 'building', interest: 'other', payer: 'self', consent: 'yes', relation: 'family', beneficiary: 'insured' };
+const roleState = { product: 'building', productId: null, interest: 'other', payer: 'self', consent: 'yes', relation: 'family', beneficiary: 'insured' };
 const caseState = { topic: 'values', productId: null, selections: Object.fromEntries(Object.entries(CASE_DEFAULTS).map(([key, value]) => [key, { ...value }])) };
 const norm = value => (value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ß/g, 'ss').replace(/[+&/–—-]/g, ' ').replace(/[^a-z0-9äöü ]/g, ' ').replace(/\s+/g, ' ').trim();
 const esc = value => String(value ?? '').replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
@@ -202,7 +202,7 @@ function renderDetail(product) {
   $('#detailContent').innerHTML = `<div class="detail-hero"><p class="eyebrow">${product.category} · ${product.subcategory}</p><h2>${product.name}</h2><p>${product.summary}</p>${evidenceCount ? `<div class="evidence-summary"><span>${evidenceCount}</span><strong>Quellenbelege</strong><small>direkt offline lesbar</small></div>` : ''}</div>${related}${caseInline}${roleInline}${eligibility}${facts}${tariffs}${addons}${renderMatrix(product)}${docs}<h3 class="section-title">R+V Quelle</h3><a class="source-button" href="${product.url}" target="_blank" rel="noopener"><span>Aktuelle Produktseite öffnen</span><b>↗</b></a><div class="notice">Schnellübersicht, Stand 10.08.2026. „Prüfen“ bedeutet: öffentlich nicht eindeutig dieser Tarifstufe zugeordnet. Maßgeblich sind konkreter Vertrag, Nachträge und vereinbarte Bedingungen.</div>`;
   $$('[data-related-product]').forEach(button => { button.onclick = () => { $('#detailDialog').close(); openDetail(button.dataset.relatedProduct); }; });
   $('[data-case-topic-inline]')?.addEventListener('click', event => { $('#detailDialog').close(); openCaseNavigator(event.currentTarget.dataset.caseTopicInline, product.id); });
-  $('[data-role-case]')?.addEventListener('click', event => { roleState.product = event.currentTarget.dataset.roleCase; $('#detailDialog').close(); openRoleChecker(); });
+  $('[data-role-case]')?.addEventListener('click', event => { roleState.product = event.currentTarget.dataset.roleCase; $('#detailDialog').close(); openRoleChecker(product.id); });
   bindDetail(product);
 }
 function bindDetail(product) {
@@ -249,7 +249,7 @@ function caseAnswerHtml(answer) {
 function renderCaseResult() {
   const target=$('#caseResult'); if(!target)return;
   target.innerHTML=caseAnswerHtml(caseAnswer(caseState.topic,caseState.selections[caseState.topic]||{}));
-  $$('[data-case-product]').forEach(button=>{button.onclick=()=>{$('#caseDialog').close();openDetail(button.dataset.caseProduct);};});
+  $$('[data-case-product]').forEach(button=>{button.onclick=()=>{caseState.productId=null;$('#caseDialog').close();openDetail(button.dataset.caseProduct);};});
 }
 function renderCaseNavigator() {
   const topic=CASE_TOPICS[caseState.topic], selection=caseState.selections[caseState.topic]||{};
@@ -267,17 +267,25 @@ function renderCaseNavigator() {
   renderCaseResult();
 }
 function openCaseNavigator(topic, productId=null) { if(topic&&CASE_TOPICS[topic])caseState.topic=topic;caseState.productId=productId&&PRODUCTS.some(item=>item.id===productId)?productId:null;renderCaseNavigator();$('#caseDialog').showModal(); }
+function closeCaseNavigator() { const productId=caseState.productId;$('#caseDialog').close();caseState.productId=null;if(productId)openDetail(productId); }
 function roleChoice(field, value, label, active) {
   return `<button type="button" class="role-choice ${active ? 'active' : ''}" data-role-field="${field}" data-role-value="${value}">${label}</button>`;
 }
 function renderRoleChecker() {
   const answer = roleAnswer(roleState), config = answer.config;
+  const product = PRODUCTS.find(item => item.id === roleState.productId);
   const productButtons = Object.entries(ROLE_CASES).map(([id, item]) => `<button type="button" class="role-product ${roleState.product === id ? 'active' : ''}" data-role-field="product" data-role-value="${id}"><span>${item.icon}</span><b>${item.label}</b></button>`).join('');
-  const beneficiaryStep = ['life', 'accident'].includes(roleState.product) ? `<section class="role-step"><span class="role-step-no">5</span><h3>Wer soll die Leistung erhalten?</h3><div class="role-choices three">${roleChoice('beneficiary', 'insured', 'Versicherte Person', roleState.beneficiary === 'insured')}${roleChoice('beneficiary', 'holder', 'Versicherungsnehmer', roleState.beneficiary === 'holder')}${roleChoice('beneficiary', 'other', 'Andere Person', roleState.beneficiary === 'other')}</div></section>` : '';
-  $('#roleContent').innerHTML = `<div class="role-head"><p class="eyebrow">INTERAKTIVER BERATUNGSCHECK</p><h2>Wer versichert wen?</h2><p>Konstellation anklicken – die fachliche Einordnung erscheint sofort.</p></div><section class="role-step"><span class="role-step-no">1</span><h3>Produkt auswählen</h3><div class="role-products">${productButtons}</div></section><section class="role-step"><span class="role-step-no">2</span><h3>Ist der ${config.interestLabel} zugleich Versicherungsnehmer?</h3><div class="role-choices">${roleChoice('interest', 'same', 'Ja, gleiche Person', roleState.interest === 'same')}${roleChoice('interest', 'other', 'Nein, andere Person', roleState.interest === 'other')}</div></section><section class="role-step"><span class="role-step-no">3</span><h3>Wer bezahlt den Beitrag?</h3><div class="role-choices">${roleChoice('payer', 'self', 'Versicherungsnehmer', roleState.payer === 'self')}${roleChoice('payer', 'other', 'Andere Person', roleState.payer === 'other')}</div></section><section class="role-step"><span class="role-step-no">4</span><h3>Verhältnis und Zustimmung</h3><div class="role-subgrid"><div><small>Beziehung</small><div class="role-choices">${roleChoice('relation', 'family', 'Familie / Haushalt', roleState.relation === 'family')}${roleChoice('relation', 'unrelated', 'Dritte Person', roleState.relation === 'unrelated')}</div></div><div><small>Auftrag / Einwilligung</small><div class="role-choices">${roleChoice('consent', 'yes', 'Vorhanden', roleState.consent === 'yes')}${roleChoice('consent', 'no', 'Noch offen', roleState.consent === 'no')}</div></div></div></section>${beneficiaryStep}<section class="role-answer tone-${answer.tone}"><div class="role-verdict"><span>${answer.verdict}</span><small>${config.label}</small></div><h3>${answer.title}</h3><p>${answer.text}</p>${answer.notes.length ? `<div class="role-notes">${answer.notes.map(note => `<p>${note}</p>`).join('')}</div>` : ''}<h4>So sauber gestalten</h4><ol>${config.steps.map(step => `<li>${step}</li>`).join('')}</ol><details class="role-source"><summary><span><i class="role-source-orb">1</i> Quellenstelle anzeigen</span><b>›</b></summary><div><strong>${config.source.document}</strong><small>${config.source.location}</small><p>${config.source.text}</p></div></details></section><div class="notice">Der Checker bewertet die Rollenlogik. Annahmerichtlinien, Tarifberechtigung, Steuerfolgen und der konkrete Versicherungsschein bleiben zusätzlich zu prüfen.</div>`;
+  const offset = product ? 0 : 1;
+  const head = product
+    ? `<div class="role-head product-context"><p class="eyebrow">VERTRAGSROLLEN PRÜFEN</p><h2>${esc(product.name)}</h2><p>Konstellation anklicken – die fachliche Einordnung erscheint sofort.</p></div>`
+    : `<div class="role-head"><p class="eyebrow">INTERAKTIVER BERATUNGSCHECK</p><h2>Wer versichert wen?</h2><p>Produkt und Konstellation auswählen – die fachliche Einordnung erscheint sofort.</p></div>`;
+  const productStep = product ? '' : `<section class="role-step"><span class="role-step-no">1</span><h3>Produkt auswählen</h3><div class="role-products">${productButtons}</div></section>`;
+  const beneficiaryStep = ['life', 'accident'].includes(roleState.product) ? `<section class="role-step"><span class="role-step-no">${4+offset}</span><h3>Wer soll die Leistung erhalten?</h3><div class="role-choices three">${roleChoice('beneficiary', 'insured', 'Versicherte Person', roleState.beneficiary === 'insured')}${roleChoice('beneficiary', 'holder', 'Versicherungsnehmer', roleState.beneficiary === 'holder')}${roleChoice('beneficiary', 'other', 'Andere Person', roleState.beneficiary === 'other')}</div></section>` : '';
+  $('#roleContent').innerHTML = `${head}${productStep}<section class="role-step"><span class="role-step-no">${1+offset}</span><h3>Ist der ${config.interestLabel} zugleich Versicherungsnehmer?</h3><div class="role-choices">${roleChoice('interest', 'same', 'Ja, gleiche Person', roleState.interest === 'same')}${roleChoice('interest', 'other', 'Nein, andere Person', roleState.interest === 'other')}</div></section><section class="role-step"><span class="role-step-no">${2+offset}</span><h3>Wer bezahlt den Beitrag?</h3><div class="role-choices">${roleChoice('payer', 'self', 'Versicherungsnehmer', roleState.payer === 'self')}${roleChoice('payer', 'other', 'Andere Person', roleState.payer === 'other')}</div></section><section class="role-step"><span class="role-step-no">${3+offset}</span><h3>Verhältnis und Zustimmung</h3><div class="role-subgrid"><div><small>Beziehung</small><div class="role-choices">${roleChoice('relation', 'family', 'Familie / Haushalt', roleState.relation === 'family')}${roleChoice('relation', 'unrelated', 'Dritte Person', roleState.relation === 'unrelated')}</div></div><div><small>Auftrag / Einwilligung</small><div class="role-choices">${roleChoice('consent', 'yes', 'Vorhanden', roleState.consent === 'yes')}${roleChoice('consent', 'no', 'Noch offen', roleState.consent === 'no')}</div></div></div></section>${beneficiaryStep}<section class="role-answer tone-${answer.tone}"><div class="role-verdict"><span>${answer.verdict}</span><small>${config.label}</small></div><h3>${answer.title}</h3><p>${answer.text}</p>${answer.notes.length ? `<div class="role-notes">${answer.notes.map(note => `<p>${note}</p>`).join('')}</div>` : ''}<h4>So sauber gestalten</h4><ol>${config.steps.map(step => `<li>${step}</li>`).join('')}</ol><details class="role-source"><summary><span><i class="role-source-orb">1</i> Quellenstelle anzeigen</span><b>›</b></summary><div><strong>${config.source.document}</strong><small>${config.source.location}</small><p>${config.source.text}</p></div></details></section><div class="notice">Der Checker bewertet die Rollenlogik. Annahmerichtlinien, Tarifberechtigung, Steuerfolgen und der konkrete Versicherungsschein bleiben zusätzlich zu prüfen.</div>`;
   $$('[data-role-field]').forEach(button => { button.onclick = () => { roleState[button.dataset.roleField] = button.dataset.roleValue; renderRoleChecker(); }; });
 }
-function openRoleChecker() { renderRoleChecker(); $('#roleDialog').showModal(); }
+function openRoleChecker(productId=null) { roleState.productId=productId&&PRODUCTS.some(item=>item.id===productId)?productId:null;renderRoleChecker();$('#roleDialog').showModal(); }
+function closeRoleChecker() { const productId=roleState.productId;$('#roleDialog').close();roleState.productId=null;if(productId)openDetail(productId); }
 function init() {
   renderFilters();
   $('#searchInput').addEventListener('input', event => { state.query = event.target.value; state.limit = 30; $('#clearBtn').style.display = state.query ? 'block' : 'none'; render(); });
@@ -293,8 +301,8 @@ function init() {
   };
   $('#evidenceClose').onclick = () => $('#evidenceDialog').close(); $('#evidenceDialog').onclick = event => { if (event.target === $('#evidenceDialog')) $('#evidenceDialog').close(); };
   $('#infoBtn').onclick = () => $('#infoDialog').showModal(); $('#infoClose').onclick = () => $('#infoDialog').close();
-  $('#caseNavigatorBtn').onclick = () => openCaseNavigator(); $('#caseClose').onclick = () => $('#caseDialog').close(); $('#caseDialog').onclick = event => { if (event.target === $('#caseDialog')) $('#caseDialog').close(); };
-  $('#roleClose').onclick = () => $('#roleDialog').close(); $('#roleDialog').onclick = event => { if (event.target === $('#roleDialog')) $('#roleDialog').close(); };
+  $('#caseNavigatorBtn').onclick = () => openCaseNavigator(); $('#caseClose').onclick = closeCaseNavigator; $('#caseDialog').onclick = event => { if (event.target === $('#caseDialog')) closeCaseNavigator(); };
+  $('#roleClose').onclick = closeRoleChecker; $('#roleDialog').onclick = event => { if (event.target === $('#roleDialog')) closeRoleChecker(); };
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(registration => registration.update()).catch(() => {}); render();
 }
 init();
